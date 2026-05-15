@@ -1,6 +1,6 @@
 {
   "name": { "display": "Yoojin Jang", "korean": "장유진" },
-  "title": "Ph.D. candidate",
+  "title": "Integrated M.S./Ph.D. student",
   "affiliation": {
     "lab": "LAIT",
     "lab_url": "https://sites.google.com/view/jaejunyoo",
@@ -45,8 +45,8 @@
     }
   ],
   "profile_image": "/images/yoojin.png",
-  "bio_short": "I'm a Ph.D. candidate at UNIST AIGS, advised by Prof. Jaejun Yoo at LAIT — I build multimodal generators and the benchmarks that keep them honest.",
-  "bio_long": "I'm a Ph.D. candidate at UNIST AIGS, advised by Prof. Jaejun Yoo at LAIT. I work on multimodal generation — increasingly where audio and video have to move together — and on the benchmarks that decide whether the result actually holds up. I build the models, then probe them with evaluations that expose where modalities drift out of sync or quietly fake the alignment.",
+  "bio_short": "I'm a Integrated M.S./Ph.D. student at UNIST AIGS, advised by Prof. Jaejun Yoo at LAIT — I build multimodal generators and the benchmarks that keep them honest.",
+  "bio_long": "I'm a Integrated M.S./Ph.D. student at UNIST AIGS, advised by Prof. Jaejun Yoo at LAIT. I work on multimodal generation — increasingly where audio and video have to move together — and on the benchmarks that decide whether the result actually holds up. I build the models, then probe them with evaluations that expose where modalities drift out of sync or quietly fake the alignment.",
   "research_vision": "I work on multimodal generation — especially audio and video that have to stay synchronized — and on the benchmarks that decide whether the result actually holds up. I build generators across modalities, then stress-test them with evaluations that expose where alignment slips and where fidelity quietly fakes itself.",
   "ongoing_projects": [
     { "title": "Video-to-audio generation", "note": null },

@@ -1,0 +1,215 @@
+---
+/**
+ * /before/ — "Before my journey"
+ *
+ * A small sub-board curating undergraduate-era work: apps, games, internships,
+ * fellowships, and the domestic paper that came right before grad school.
+ *
+ * Filter rule: items with year <= 2021 (PhD started 2021.09 at UNIST AIGS).
+ * Pulled from three collections: projects, career, domestic-papers — normalized
+ * into a single timeline-style list. Existing /projects/, /career/, /papers/
+ * pages remain intact for post-2021 items.
+ */
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
+import Footer from '../../components/Footer.astro';
+
+const CUTOFF_YEAR = 2021;
+
+const profileEntry = await getEntry('profile', 'profile');
+if (!profileEntry) {
+  throw new Error('Missing src/content/profile/profile.json — required.');
+}
+const profile = profileEntry.data;
+
+const [projects, domesticPapers] = await Promise.all([
+  getCollection('projects'),
+  getCollection('domestic-papers'),
+]);
+
+type Item =
+  | {
+      kind: 'project';
+      id: string;
+      title: string;
+      year: number;
+      period?: string | null;
+      tagline?: string | null;
+    }
+  | {
+      kind: 'paper';
+      id: string;
+      title: string;
+      title_ko?: string | null;
+      year: number;
+      venue: string;
+      honors: string[];
+      tagline?: string | null;
+    };
+
+const items: Item[] = [
+  // Projects: keep the pre-grad-school filter (year <= 2021).
+  ...projects
+    .filter((p) => p.data.year <= CUTOFF_YEAR)
+    .map((p): Item => ({
+      kind: 'project',
+      id: p.id,
+      title: p.data.title,
+      year: p.data.year,
+      period: p.data.period,
+      tagline: p.data.tagline,
+    })),
+  // Papers: no cutoff — show every domestic-conference paper here
+  // (medical, IPIU, KMMS, etc.) since these sit outside the international
+  // publication track on the home page.
+  ...domesticPapers.map((d): Item => ({
+    kind: 'paper',
+    id: d.id,
+    title: d.data.title,
+    title_ko: d.data.title_ko,
+    year: d.data.year,
+    venue: d.data.venue,
+    honors: d.data.honors,
+    tagline: d.data.tagline,
+  })),
+];
+
+items.sort((a, b) => {
+  if (b.year !== a.year) return b.year - a.year;
+  // Within the same year: projects before papers (rough chronology of work
+  // → publication).
+  return a.kind === b.kind ? 0 : a.kind === 'project' ? -1 : 1;
+});
+
+const pageTitle = 'Before my journey — Yoojin Jang';
+const pageDescription =
+  "Things I built before joining UNIST AIGS — undergraduate apps, games, internships, and the domestic paper that came right before grad school.";
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  showBlobs={false}
+>
+  <ThemeToggle />
+
+  <main class="min-h-screen">
+    <section class="pt-10 pb-16 md:pt-14 md:pb-24">
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <header class="mb-8 md:mb-10" id="before-heading">
+          <h1 class="text-h2 font-semibold tracking-tight text-primary leading-tight flex items-center">
+            <span class="section-bar" aria-hidden="true"></span>
+            <span>Before my journey</span>
+          </h1>
+          <p class="mt-2 text-small leading-normal text-muted">
+            Apps, games, and papers outside the international track.
+          </p>
+        </header>
+
+        {
+          items.length === 0 ? (
+            <p class="mt-8 text-small text-muted">
+              No entries yet.
+            </p>
+          ) : (
+            <ol class="mt-8 flex flex-col gap-3 list-none p-0">
+              {items.map((item) => (
+                <li>
+                  <article
+                    class="before-row group flex flex-col gap-2 rounded-lg border border-subtle bg-bg-elevated px-5 py-4 md:flex-row md:items-baseline md:gap-6"
+                    aria-labelledby={`item-${item.id}-title`}
+                  >
+                    {/* Year / period / venue column */}
+                    <div class="md:w-32 md:shrink-0 flex items-baseline gap-2 md:block">
+                      <span class="text-small font-medium text-primary tabular">
+                        {item.year}
+                      </span>
+                      {item.kind === 'project' && item.period && (
+                        <span class="text-micro text-muted md:block md:mt-0.5">
+                          {item.period}
+                        </span>
+                      )}
+                      {item.kind === 'paper' && (
+                        <span class="text-micro text-muted md:block md:mt-0.5">
+                          {item.venue}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title + tagline + (paper-only) Korean title + honors */}
+                    <div class="flex-1 min-w-0">
+                      <h3
+                        id={`item-${item.id}-title`}
+                        class="text-body font-semibold text-primary leading-snug"
+                      >
+                        {item.title}
+                      </h3>
+                      {item.kind === 'paper' && item.title_ko && (
+                        <p class="mt-0.5 text-small text-muted leading-snug">
+                          {item.title_ko}
+                        </p>
+                      )}
+                      {item.tagline && (
+                        <p class="mt-1.5 text-small text-secondary leading-normal">
+                          {item.tagline}
+                        </p>
+                      )}
+                      {item.kind === 'paper' && item.honors.length > 0 && (
+                        <ul class="mt-2 flex flex-wrap gap-1.5 list-none p-0">
+                          {item.honors.map((h) => (
+                            <li class="honors-pill">{h}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </article>
+                </li>
+              ))}
+            </ol>
+          )
+        }
+
+        <p class="mt-10 text-small text-muted">
+          <a
+            href="/"
+            class="hover:text-accent-hover hover:underline underline-offset-[3px] decoration-1 transition-colors duration-fast ease-standard"
+          >
+            ← Back home
+          </a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <Footer
+    authorName={profile.name.display}
+    tagline="Where it all started."
+  />
+</Layout>
+
+<style>
+  .before-row {
+    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (hover: hover) {
+    .before-row:hover {
+      border-color: var(--color-border-default);
+    }
+  }
+
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 9999px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+</style>

@@ -263,6 +263,23 @@ const portraitSrc = profile.profile_image || '/images/yoojin.png';
         </section>
       )
     }
+
+    {/* ─── Before my journey — tiny entry-point link ─────────
+         A minimal one-line link to /before/, which curates
+         undergraduate apps, games, internships, and the early
+         paper. Intentionally understated.
+    */}
+    <section class="pb-12 md:pb-16" aria-label="Before my journey">
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <a
+          href="/before/"
+          class="inline-flex items-baseline gap-1.5 text-small text-muted hover:text-accent-hover hover:underline underline-offset-[3px] decoration-1 transition-colors duration-fast ease-standard"
+        >
+          <span>Before my journey</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
   </main>
 
   <Footer
