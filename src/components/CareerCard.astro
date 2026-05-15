@@ -1,0 +1,164 @@
+---
+/**
+ * CareerCard — one career row on the /career page.
+ *
+ * Reuses ProjectCard's row layout philosophy (compact, three columns:
+ * date, title+meta, tags+links) but adds an `organization` line beneath
+ * the title since career entries are organization-anchored.
+ *
+ * Data contract: src/content/career/*.json validated against the `career`
+ * collection schema in src/content/config.ts.
+ */
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  entry: CollectionEntry<'career'>;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+
+type LinkEntry = { label: string; href: string };
+const linkEntries: LinkEntry[] = [];
+if (d.links?.site) linkEntries.push({ label: 'Site', href: d.links.site });
+if (d.links?.repo) linkEntries.push({ label: 'Repo', href: d.links.repo });
+
+const yearLabel = String(d.year);
+const periodLabel = d.period ?? null;
+---
+
+<article
+  class="career-card group flex flex-col gap-3 rounded-lg border border-subtle bg-bg-elevated px-5 py-4 md:flex-row md:items-start md:gap-6 md:px-6 md:py-5 focus-within:shadow-focus"
+  aria-labelledby={`career-${d.id}-title`}
+>
+  {/* ─── Date column ─── */}
+  <div class="flex shrink-0 flex-col gap-0.5 md:w-32">
+    <span
+      class="tabular text-small font-medium text-primary leading-snug"
+      aria-label={`Year ${yearLabel}`}
+    >
+      <time datetime={yearLabel}>{yearLabel}</time>
+    </span>
+    {
+      periodLabel && (
+        <span class="tabular text-micro text-muted leading-normal">
+          {periodLabel}
+        </span>
+      )
+    }
+  </div>
+
+  {/* ─── Title + organization + role column ─── */}
+  <div class="flex min-w-0 flex-1 flex-col gap-1">
+    <h3
+      id={`career-${d.id}-title`}
+      class="text-body font-semibold tracking-tight leading-snug text-primary"
+    >
+      {d.title}
+    </h3>
+    <p class="text-small leading-normal text-secondary">
+      {d.organization}
+      {
+        d.role && (
+          <>
+            <span aria-hidden="true" class="text-muted"> · </span>
+            <span class="text-muted">{d.role}</span>
+          </>
+        )
+      }
+    </p>
+    {
+      d.tagline && (
+        <p class="mt-1 text-small leading-normal text-secondary">
+          {d.tagline}
+        </p>
+      )
+    }
+  </div>
+
+  {/* ─── Kind + tags + links column ─── */}
+  <div class="flex shrink-0 flex-col items-start gap-2 md:items-end md:max-w-[14rem]">
+    <ul class="flex flex-wrap gap-1.5 md:justify-end list-none p-0 m-0">
+      <li class="kind-pill">{d.kind}</li>
+      {d.tags.map((tag) => (
+        <li class="tag-pill">{tag}</li>
+      ))}
+    </ul>
+    {
+      linkEntries.length > 0 && (
+        <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-small font-medium text-accent md:justify-end">
+          {linkEntries.map((entry, i) => (
+            <>
+              {i > 0 && (
+                <span class="text-muted" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <a
+                href={entry.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:text-accent-hover hover:underline underline-offset-[3px] decoration-1 transition-colors duration-fast ease-standard"
+              >
+                {entry.label}
+              </a>
+            </>
+          ))}
+        </p>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  /* Tag pill — same as ProjectCard.astro for visual consistency. */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 9999px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  /* Kind pill — accent-tinted to distinguish from tags at a glance. */
+  .kind-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-accent-muted);
+    color: var(--color-accent);
+    border-radius: 9999px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .career-card {
+    transition:
+      border-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+      transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (hover: hover) {
+    .career-card:hover {
+      border-color: var(--color-border-default);
+      transform: translateY(-1px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .career-card,
+    .career-card:hover {
+      transform: none;
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

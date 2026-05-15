@@ -1,0 +1,15 @@
+{
+  "id": "medical-gan-assessment-kcgs-2022",
+  "title": "Assessment and Analysis of Fidelity and Diversity for GAN-based Medical Image Generative Model",
+  "title_ko": null,
+  "venue": "KCGS",
+  "venue_full": "Journal of the Korea Computer Graphics Society",
+  "venue_iteration": null,
+  "year": 2022,
+  "honors": [],
+  "language": "en",
+  "links": { "paper": null, "arxiv": null, "slides": null },
+  "tags": ["evaluation", "GAN", "medical-imaging"],
+  "tagline": "Fidelity and diversity assessment for GAN-based medical image generators — KCGS Journal 2022.",
+  "featured": false
+}

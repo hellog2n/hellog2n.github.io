@@ -1,0 +1,15 @@
+{
+  "id": "penn-state-fellowship-2020",
+  "title": "Pennsylvania State University — Global Fellowship",
+  "organization": "Pennsylvania State University",
+  "year": 2020,
+  "period": "2020.01 – 2020.02",
+  "status": "completed",
+  "role": "Fellow",
+  "kind": "fellowship",
+  "links": { "site": null, "repo": null },
+  "tags": ["fellowship", "international"],
+  "tagline": "Short global fellowship at Penn State — early international research exposure.",
+  "description": null,
+  "featured": false
+}

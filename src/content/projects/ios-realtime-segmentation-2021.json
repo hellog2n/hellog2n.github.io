@@ -1,0 +1,14 @@
+{
+  "id": "ios-realtime-segmentation-2021",
+  "title": "Real-Time Object Segmentation for iOS Dual-Camera Synthesis",
+  "year": 2021,
+  "period": null,
+  "status": "completed",
+  "role": "First author",
+  "links": { "repo": null, "demo": null, "paper": null },
+  "tags": ["iOS", "swift", "segmentation"],
+  "assets": { "thumbnail": null, "video": null },
+  "tagline": "On-device real-time segmentation for compositing dual-camera iOS shots — also published at JICS 2021.",
+  "description": null,
+  "featured": false
+}

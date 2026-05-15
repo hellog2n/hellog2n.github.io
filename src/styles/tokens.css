@@ -1,0 +1,115 @@
+/*
+ * Design tokens — CSS variables.
+ * Mirrors _workspace/design/tokens.json (dark, default) and tokens.light.json (light).
+ *
+ * Theme strategy:
+ *   :root → light defaults (so user-agent stylesheets behave sanely if no class set).
+ *   html.dark → dark overrides.
+ *
+ * Switching is done by toggling the .dark class on <html> (see ThemeToggle.astro).
+ * An inline boot script in Layout.astro applies the class *before* paint to avoid FOUC.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+   Light (default)
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Background */
+  --color-bg-default: #ffffff;
+  --color-bg-elevated: #fafafb;
+  --color-bg-muted: #f4f5f7;
+  --color-bg-overlay: rgba(255, 255, 255, 0.72);
+
+  /* Text */
+  --color-text-primary: #0b0d12;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #6b7280;
+  --color-text-disabled: #9ca3af;
+
+  /* Accent */
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+  --color-accent-muted: rgba(37, 99, 235, 0.08);
+  --color-accent-ring: rgba(37, 99, 235, 0.35);
+
+  /* Accent gradient (blue) */
+  --accent-gradient-from: #2563eb;
+  --accent-gradient-via: #3b82f6;
+  --accent-gradient-to: #0891b2;
+  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #0891b2 100%);
+  --accent-gradient-subtle: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(8, 145, 178, 0.06) 100%);
+  --accent-gradient-border: linear-gradient(135deg, rgba(37, 99, 235, 0.55) 0%, rgba(8, 145, 178, 0.55) 100%);
+
+  /* Border */
+  --color-border-default: #e5e7eb;
+  --color-border-subtle: #f0f1f4;
+  --color-border-strong: #d1d5db;
+
+  /* Semantic */
+  --color-semantic-success: #059669;
+  --color-semantic-warning: #d97706;
+  --color-semantic-error: #dc2626;
+  --color-semantic-info: #2563eb;
+
+  /* Selection */
+  --color-selection-bg: rgba(37, 99, 235, 0.18);
+  --color-selection-text: #0b0d12;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-elevated: 0 8px 24px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.06);
+  --shadow-focus: 0 0 0 2px rgba(37, 99, 235, 0.45);
+  --shadow-glow: 0 0 0 1px rgba(37, 99, 235, 0.15), 0 8px 32px rgba(37, 99, 235, 0.08);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Dark (toggled by .dark class on <html>)
+   ───────────────────────────────────────────────────────────── */
+html.dark {
+  /* Background */
+  --color-bg-default: #0a0b0f;
+  --color-bg-elevated: #11131a;
+  --color-bg-muted: #171922;
+  --color-bg-overlay: rgba(8, 9, 13, 0.72);
+
+  /* Text */
+  --color-text-primary: #f4f5f7;
+  --color-text-secondary: #a8adba;
+  --color-text-muted: #6b7280;
+  --color-text-disabled: #4b5563;
+
+  /* Accent */
+  --color-accent: #60a5fa;
+  --color-accent-hover: #93c5fd;
+  --color-accent-muted: rgba(96, 165, 250, 0.12);
+  --color-accent-ring: rgba(96, 165, 250, 0.45);
+
+  /* Accent gradient (blue, brighter for dark bg) */
+  --accent-gradient-from: #60a5fa;
+  --accent-gradient-via: #7dd3fc;
+  --accent-gradient-to: #22d3ee;
+  --accent-gradient: linear-gradient(135deg, #60a5fa 0%, #7dd3fc 50%, #22d3ee 100%);
+  --accent-gradient-subtle: linear-gradient(135deg, rgba(96, 165, 250, 0.16) 0%, rgba(34, 211, 238, 0.10) 100%);
+  --accent-gradient-border: linear-gradient(135deg, rgba(96, 165, 250, 0.55) 0%, rgba(34, 211, 238, 0.55) 100%);
+
+  /* Border */
+  --color-border-default: #1f222c;
+  --color-border-subtle: #171922;
+  --color-border-strong: #2a2e3a;
+
+  /* Semantic */
+  --color-semantic-success: #34d399;
+  --color-semantic-warning: #fbbf24;
+  --color-semantic-error: #f87171;
+  --color-semantic-info: #60a5fa;
+
+  /* Selection */
+  --color-selection-bg: rgba(96, 165, 250, 0.28);
+  --color-selection-text: #f4f5f7;
+
+  /* Shadows — softer because dark mode uses borders, not drop shadows, for depth. */
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.40), 0 1px 2px rgba(0, 0, 0, 0.32);
+  --shadow-focus: 0 0 0 2px rgba(96, 165, 250, 0.55);
+  --shadow-glow: 0 0 0 1px rgba(96, 165, 250, 0.20), 0 8px 32px rgba(96, 165, 250, 0.08);
+}

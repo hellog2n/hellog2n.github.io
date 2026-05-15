@@ -1,0 +1,15 @@
+{
+  "id": "unist-aicp-face-swap-mentor-2022",
+  "title": "UNIST AICP Face Swap Team — Mentor",
+  "organization": "UNIST AICP",
+  "year": 2022,
+  "period": "2022.05 – 2022.11",
+  "status": "completed",
+  "role": "Mentor",
+  "kind": "mentoring",
+  "links": { "site": null, "repo": null },
+  "tags": ["mentoring", "face-generation"],
+  "tagline": "Mentored an undergraduate face-swap project under UNIST's AICP.",
+  "description": null,
+  "featured": false
+}

@@ -1,0 +1,29 @@
+---
+/**
+ * SectionHeader — h2 with optional subhead and optional gradient bar.
+ *
+ * @prop title — section heading text
+ * @prop subhead — optional muted subtitle line
+ * @prop id — optional anchor id
+ * @prop withBar — show 2px gradient bar to the left (default: true)
+ */
+export interface Props {
+  title: string;
+  subhead?: string | null;
+  id?: string;
+  withBar?: boolean;
+}
+const { title, subhead, id, withBar = true } = Astro.props;
+---
+
+<header class="mb-8 md:mb-10" id={id}>
+  <h2 class="text-h2 font-semibold tracking-tight text-primary leading-tight flex items-center">
+    {withBar && <span class="section-bar" aria-hidden="true"></span>}
+    <span>{title}</span>
+  </h2>
+  {
+    subhead && (
+      <p class="mt-2 text-small leading-normal text-muted">{subhead}</p>
+    )
+  }
+</header>

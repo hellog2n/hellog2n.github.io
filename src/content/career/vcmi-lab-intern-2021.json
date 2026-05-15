@@ -1,0 +1,15 @@
+{
+  "id": "vcmi-lab-intern-2021",
+  "title": "VCMI Lab — Research Intern",
+  "organization": "VCMI Lab",
+  "year": 2021,
+  "period": "2021.01 – 2021.08",
+  "status": "completed",
+  "role": "Research intern",
+  "kind": "research",
+  "links": { "site": null, "repo": null },
+  "tags": ["research-intern", "computer-vision"],
+  "tagline": "Research internship at VCMI Lab — first deep dive into generative-model research.",
+  "description": null,
+  "featured": false
+}

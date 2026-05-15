@@ -1,0 +1,95 @@
+---
+/**
+ * Hero — name + bio_short + contact links + portrait.
+ *
+ * - Name uses gradient text via .gradient-text utility (background-clip: text).
+ * - Portrait subtly scales 1.02 on hover (respects reduced motion).
+ * - Contact links wrap on mobile; separators are dot bullets with text.muted color.
+ */
+import Mail from './icons/Mail.astro';
+import Scholar from './icons/Scholar.astro';
+import GitHub from './icons/GitHub.astro';
+import LinkedIn from './icons/LinkedIn.astro';
+
+interface ContactLink {
+  href: string;
+  label: string;
+  icon: 'mail' | 'scholar' | 'github' | 'linkedin';
+}
+
+export interface Props {
+  name: string;
+  bioShort: string | null;
+  portraitSrc: string;
+  portraitAlt: string;
+  contacts: ContactLink[];
+}
+
+const { name, bioShort, portraitSrc, portraitAlt, contacts } = Astro.props;
+---
+
+<section class="py-20 md:py-32">
+  <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+    <div
+      class="flex flex-col-reverse items-start gap-8 md:flex-row md:items-center md:justify-between md:gap-12"
+    >
+      <div class="max-w-prose">
+        <h1
+          class="gradient-text font-sans font-semibold tracking-tighter leading-tight"
+          style="font-size: clamp(2.75rem, 6vw, 4.25rem);"
+        >
+          {name}
+        </h1>
+        {
+          bioShort && (
+            <p class="mt-5 text-body leading-relaxed text-secondary">
+              {bioShort}
+            </p>
+          )
+        }
+        {
+          contacts.length > 0 && (
+            <nav
+              class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-small text-secondary"
+              aria-label="Contact"
+            >
+              {contacts.map((link, i) => (
+                <>
+                  {i > 0 && (
+                    <span class="text-muted" aria-hidden="true">
+                      ·
+                    </span>
+                  )}
+                  <a
+                    href={link.href}
+                    class="inline-flex items-center gap-1.5 font-medium hover:text-accent-hover hover:underline underline-offset-[3px] decoration-1 transition-colors duration-fast ease-standard"
+                    {...(link.href.startsWith('http')
+                      ? { target: '_blank', rel: 'noopener noreferrer' }
+                      : {})}
+                  >
+                    {link.icon === 'mail' && <Mail />}
+                    {link.icon === 'scholar' && <Scholar />}
+                    {link.icon === 'github' && <GitHub />}
+                    {link.icon === 'linkedin' && <LinkedIn />}
+                    <span>{link.label}</span>
+                  </a>
+                </>
+              ))}
+            </nav>
+          )
+        }
+      </div>
+      <div class="shrink-0 self-center md:self-auto">
+        <img
+          src={portraitSrc}
+          alt={portraitAlt}
+          width="220"
+          height="220"
+          loading="eager"
+          decoding="async"
+          class="hero-portrait h-36 w-36 md:h-[220px] md:w-[220px] rounded-full object-cover shadow-card transition-transform duration-base ease-standard hover:scale-[1.02]"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,46 @@
+{
+  "id": "nickel-diming-gan-eccv-2024",
+  "title": "Nickel and Diming Your GAN: A Dual-Method Approach to Enhancing GAN Efficiency via Knowledge Distillation",
+  "authors": [
+    {
+      "name": "Sangyeop Yeo",
+      "is_me": false,
+      "url": "https://scholar.google.com/citations?hl=ko&user=O5wO-uYAAAAJ"
+    },
+    {
+      "name": "Yoojin Jang",
+      "is_me": true,
+      "url": null
+    },
+    {
+      "name": "Jaejun Yoo",
+      "is_me": false,
+      "url": "https://scholar.google.co.kr/citations?user=7NBlQw4AAAAJ&hl=ko"
+    }
+  ],
+  "venue": "ECCV",
+  "venue_full": "European Conference on Computer Vision",
+  "year": 2024,
+  "honors": [],
+  "links": {
+    "arxiv": "https://arxiv.org/abs/2405.11614",
+    "pdf": null,
+    "code": "https://github.com/SangyeopYeo/NICKEL_AND_DIME",
+    "project_page": "https://sangyeopyeo.github.io/Nickel_and_Diming_Your_GAN/",
+    "video": null,
+    "slides": null,
+    "bibtex": null
+  },
+  "assets": {
+    "thumbnail": "/images/papers/nickel_dime.png",
+    "hover_video": null
+  },
+  "tags": [
+    "GAN",
+    "knowledge-distillation",
+    "efficiency"
+  ],
+  "featured": true,
+  "one_liner": "Two methods — DiME and NICKEL — that compress StyleGAN2 by 99% while keeping its image quality intact.",
+  "tldr": "DiME distills GANs by matching distributions in foundation-model embeddings via MMD; NICKEL keeps the student generator and discriminator talking through interactive compression. Together they reach FID 10.45 at 95.73% compression on FFHQ and still hold up at 99.69%."
+}

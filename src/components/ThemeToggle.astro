@@ -1,0 +1,91 @@
+---
+/**
+ * Theme toggle — fixed top-right.
+ *
+ * - Reads/writes `localStorage.theme` ('dark' | 'light').
+ * - Toggles the `.dark` class on <html>.
+ * - Wraps the swap in a `.theme-transition` class (auto-removed after 300ms)
+ *   so the color flip animates smoothly without affecting other state changes.
+ *
+ * Initial theme application happens BEFORE this component runs, via the
+ * inline boot script in Layout.astro (FOUC prevention).
+ */
+import Sun from './icons/Sun.astro';
+import Moon from './icons/Moon.astro';
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  aria-label="Switch theme"
+  aria-pressed="false"
+  class="fixed right-5 top-5 md:right-6 md:top-6 z-sticky flex h-10 w-10 items-center justify-center rounded-full border border-DEFAULT bg-bg-elevated text-secondary transition-colors duration-fast ease-standard hover:text-primary hover:border-strong focus-visible:outline-none focus-visible:shadow-focus active:scale-[0.96]"
+>
+  <span class="sr-only">Toggle color theme</span>
+  <span data-icon="sun" class="hidden">
+    <Sun size={18} />
+  </span>
+  <span data-icon="moon" class="hidden">
+    <Moon size={18} />
+  </span>
+</button>
+
+<script is:inline>
+  (function () {
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    const sunIcon = button.querySelector('[data-icon="sun"]');
+    const moonIcon = button.querySelector('[data-icon="moon"]');
+
+    function syncIcons() {
+      const isDark = document.documentElement.classList.contains('dark');
+      // Show the icon of the mode we'd switch TO.
+      if (isDark) {
+        sunIcon?.classList.remove('hidden');
+        moonIcon?.classList.add('hidden');
+        button.setAttribute('aria-label', 'Switch to light mode');
+        button.setAttribute('aria-pressed', 'true');
+      } else {
+        sunIcon?.classList.add('hidden');
+        moonIcon?.classList.remove('hidden');
+        button.setAttribute('aria-label', 'Switch to dark mode');
+        button.setAttribute('aria-pressed', 'false');
+      }
+    }
+
+    syncIcons();
+
+    button.addEventListener('click', function () {
+      const root = document.documentElement;
+      // One-shot transition class for smooth color flip.
+      root.classList.add('theme-transition');
+      const next = root.classList.contains('dark') ? 'light' : 'dark';
+      root.classList.toggle('dark', next === 'dark');
+      try {
+        localStorage.setItem('theme', next);
+      } catch (e) {
+        /* localStorage unavailable — ignore */
+      }
+      syncIcons();
+      window.setTimeout(function () {
+        root.classList.remove('theme-transition');
+      }, 300);
+    });
+
+    // If the user hasn't explicitly chosen, react to system pref changes.
+    if (window.matchMedia) {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      mq.addEventListener?.('change', function (e) {
+        try {
+          if (!localStorage.getItem('theme')) {
+            document.documentElement.classList.toggle('dark', e.matches);
+            syncIcons();
+          }
+        } catch (err) {
+          /* ignore */
+        }
+      });
+    }
+  })();
+</script>

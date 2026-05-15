@@ -1,0 +1,62 @@
+---
+/**
+ * EducationItem — degree+program / institution / advisors on the left,
+ * date range on the right (tabular numerals, right-aligned on desktop).
+ */
+export interface Props {
+  degree: string;
+  program: string;
+  institution: string;
+  location: string;
+  start: string;
+  end: string | null;
+  advisors?: string[];
+}
+
+const { degree, program, institution, location, start, end, advisors = [] } =
+  Astro.props;
+
+function formatYM(value: string): string {
+  // value is "YYYY-MM" — render as "MMM YYYY" using a small map (no Intl, deterministic).
+  const [y, m] = value.split('-');
+  if (!y) return value;
+  if (!m) return y;
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const idx = Math.max(0, Math.min(11, parseInt(m, 10) - 1));
+  return `${months[idx]} ${y}`;
+}
+
+const period = `${formatYM(start)} — ${end ? formatYM(end) : 'Now'}`;
+---
+
+<div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-8 py-4">
+  <div class="min-w-0">
+    <p class="text-body font-medium text-primary">
+      {degree}, {program}
+    </p>
+    <p class="mt-1 text-small text-secondary">
+      {institution} · {location}
+    </p>
+    {
+      advisors.length > 0 && (
+        <p class="mt-1 text-small text-muted">
+          Advisor{advisors.length > 1 ? 's' : ''}: {advisors.join(', ')}
+        </p>
+      )
+    }
+  </div>
+  <p class="text-small text-muted tabular shrink-0 sm:text-right">{period}</p>
+</div>

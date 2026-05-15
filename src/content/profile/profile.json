@@ -1,0 +1,55 @@
+{
+  "name": { "display": "Yoojin Jang", "korean": "장유진" },
+  "title": "Ph.D. candidate",
+  "affiliation": {
+    "lab": "LAIT",
+    "lab_url": "https://sites.google.com/view/jaejunyoo",
+    "department": "AI Graduate School (AIGS)",
+    "institution": "UNIST",
+    "location": "Ulsan, South Korea"
+  },
+  "advisor": {
+    "name": "Prof. Jaejun Yoo",
+    "url": "https://scholar.google.co.kr/citations?user=7NBlQw4AAAAJ&hl=ko"
+  },
+  "contact": {
+    "email": "cv.softjin@gmail.com",
+    "scholar": "https://scholar.google.com/citations?user=-_a_pDYAAAAJ&hl=ko&oi=ao",
+    "linkedin": "https://www.linkedin.com/in/yoojin-jang-40929b325/",
+    "github": "https://github.com/hellog2n",
+    "twitter": null
+  },
+  "research_interests": [
+    "Audio-video generation",
+    "Benchmarks",
+    "Multimodal generation"
+  ],
+  "education": [
+    {
+      "degree": "Integrated M.S. and Ph.D.",
+      "program": "AI Graduate School",
+      "institution": "UNIST",
+      "location": "Ulsan, South Korea",
+      "start": "2021-09",
+      "end": null,
+      "advisors": ["Prof. Jaejun Yoo"]
+    },
+    {
+      "degree": "B.S.",
+      "program": "Department of Software Convergence",
+      "institution": "Seoul Women's University",
+      "location": "Seoul, South Korea",
+      "start": "2016-03",
+      "end": "2021-08",
+      "advisors": ["Prof. Helen Hong", "Prof. Jun Hwang"]
+    }
+  ],
+  "profile_image": "/images/yoojin.png",
+  "bio_short": "I'm a Ph.D. candidate at UNIST AIGS, advised by Prof. Jaejun Yoo at LAIT — I build multimodal generators and the benchmarks that keep them honest.",
+  "bio_long": "I'm a Ph.D. candidate at UNIST AIGS, advised by Prof. Jaejun Yoo at LAIT. I work on multimodal generation — increasingly where audio and video have to move together — and on the benchmarks that decide whether the result actually holds up. I build the models, then probe them with evaluations that expose where modalities drift out of sync or quietly fake the alignment.",
+  "research_vision": "I work on multimodal generation — especially audio and video that have to stay synchronized — and on the benchmarks that decide whether the result actually holds up. I build generators across modalities, then stress-test them with evaluations that expose where alignment slips and where fidelity quietly fakes itself.",
+  "ongoing_projects": [
+    { "title": "Video-to-audio generation", "note": null },
+    { "title": "Video-audio editing benchmark", "note": null }
+  ]
+}

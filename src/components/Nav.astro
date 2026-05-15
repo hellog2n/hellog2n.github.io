@@ -1,0 +1,97 @@
+---
+/**
+ * Nav — small top navigation strip.
+ *
+ * Rendered by Layout.astro on every page, so the three section-list pages
+ * (/projects/, /career/, /papers/) are always reachable. The home (/) link
+ * is intentionally omitted — clicking the page-top author name will be the
+ * implicit home affordance later if needed.
+ *
+ * Design:
+ *   - Single row in the normal document flow (not sticky). Sits above the
+ *     Hero / page header.
+ *   - Right-aligned link group with `·` separators in muted color.
+ *   - Active link picks up text-primary; inactive links use text-muted and
+ *     hover to text-accent-hover with a thin underline (color-only transition).
+ *   - No gradient. Motion limited to <=200ms color transition.
+ *
+ * A11y:
+ *   - <nav aria-label="Primary"> wraps the link list.
+ *   - Active link gets `aria-current="page"`.
+ *
+ * The fixed-position <ThemeToggle> overlays the top-right corner of every
+ * page; the nav has right padding (`pr-16`) on mobile to keep its rightmost
+ * link clear of the toggle button.
+ */
+const { pathname } = Astro.url;
+
+type NavItem = { href: string; label: string; match: (p: string) => boolean };
+
+const items: NavItem[] = [
+  {
+    href: '/projects/',
+    label: 'Projects',
+    match: (p) => p === '/projects' || p.startsWith('/projects/'),
+  },
+  {
+    href: '/career/',
+    label: 'Career',
+    match: (p) => p === '/career' || p.startsWith('/career/'),
+  },
+  {
+    href: '/papers/',
+    label: 'Papers',
+    match: (p) => p === '/papers' || p.startsWith('/papers/'),
+  },
+];
+---
+
+<nav
+  aria-label="Primary"
+  class="w-full pt-5 md:pt-6"
+>
+  <div
+    class="mx-auto flex max-w-content items-center justify-between gap-4 px-5 pr-16 sm:px-6 md:pr-20 lg:px-8"
+  >
+    {/* Left: home link (text-only, plain, no gradient). */}
+    <a
+      href="/"
+      class="text-small font-medium text-secondary transition-colors duration-fast ease-standard hover:text-primary focus-visible:outline-none focus-visible:shadow-focus"
+      aria-label="Home — Yoojin Jang"
+    >
+      Yoojin Jang
+    </a>
+
+    {/* Right: section links. */}
+    <ul
+      class="flex items-center gap-x-2 gap-y-1 text-small list-none p-0 m-0"
+    >
+      {
+        items.map((item, i) => {
+          const active = item.match(pathname);
+          return (
+            <>
+              {i > 0 && (
+                <li aria-hidden="true" class="text-muted">
+                  ·
+                </li>
+              )}
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    'transition-colors duration-fast ease-standard hover:text-accent-hover hover:underline underline-offset-[3px] decoration-1 focus-visible:outline-none focus-visible:shadow-focus',
+                    active ? 'text-primary font-medium' : 'text-muted',
+                  ]}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            </>
+          );
+        })
+      }
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,83 @@
+---
+/**
+ * Career board — /career/
+ *
+ * Lists every entry from the `career` content collection, sorted by year desc.
+ * Career here means teaching, industry, mentoring, research-intern, and
+ * fellowship roles — separated from /projects/ (things built/won) and
+ * /papers/ (domestic publications).
+ */
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
+import CareerCard from '../../components/CareerCard.astro';
+import Footer from '../../components/Footer.astro';
+import microcopy from '../../data/microcopy.json';
+
+// ─── Data loading ─────────────────────────────────────────────────────
+const profileEntry = await getEntry('profile', 'profile');
+const profile = profileEntry?.data;
+
+const careerEntries = await getCollection('career');
+
+const sortedEntries = [...careerEntries].sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+// ─── Page metadata ────────────────────────────────────────────────────
+const authorName = profile?.name.display ?? 'Yoojin Jang';
+const pageTitle = `Career — ${authorName}`;
+const pageDescription =
+  'Internships, teaching, mentoring, and fellowships across the academic and industry path of Yoojin Jang.';
+const subhead = 'Internships, teaching, and the people who taught me.';
+
+const canonicalUrl = 'https://hellog2n.github.io/career/';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+>
+  <ThemeToggle />
+
+  <main class="min-h-screen">
+    <section
+      class="pt-10 pb-10 md:pt-16 md:pb-12"
+      aria-labelledby="career-heading"
+    >
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <header class="mb-10 md:mb-12">
+          <h1
+            id="career-heading"
+            class="text-h1 font-semibold tracking-tight text-primary leading-tight"
+          >
+            Career
+          </h1>
+          <p class="mt-3 text-small leading-normal text-muted">{subhead}</p>
+        </header>
+
+        {
+          sortedEntries.length > 0 ? (
+            <ol class="flex flex-col gap-3 list-none p-0 m-0">
+              {sortedEntries.map((entry) => (
+                <li>
+                  <CareerCard entry={entry} />
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="text-small text-muted">No career entries yet.</p>
+          )
+        }
+      </div>
+    </section>
+  </main>
+
+  <Footer
+    authorName={authorName}
+    tagline={(microcopy as Record<string, string>)['footer.tagline']}
+  />
+</Layout>

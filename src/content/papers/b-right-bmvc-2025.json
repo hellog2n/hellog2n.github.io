@@ -1,0 +1,68 @@
+{
+  "id": "b-right-bmvc-2025",
+  "title": "B-RIGHT: Benchmark Re-evaluation for Integrity in Generalized Human-Object Interaction Testing",
+  "authors": [
+    {
+      "name": "Yoojin Jang",
+      "is_me": true,
+      "equal_contrib": true,
+      "url": null
+    },
+    {
+      "name": "Junsu Kim",
+      "is_me": false,
+      "equal_contrib": true,
+      "url": "https://sites.google.com/view/jjunsss"
+    },
+    {
+      "name": "Hayeon Kim",
+      "is_me": false,
+      "url": null
+    },
+    {
+      "name": "Eun-ki Lee",
+      "is_me": false,
+      "url": null
+    },
+    {
+      "name": "Eun-sol Kim",
+      "is_me": false,
+      "url": "https://scholar.google.com/citations?user=JhZBnfYAAAAJ&hl=en"
+    },
+    {
+      "name": "Seungryul Baek",
+      "is_me": false,
+      "url": "https://scholar.google.co.kr/citations?user=Mz1fab8AAAAJ"
+    },
+    {
+      "name": "Jaejun Yoo",
+      "is_me": false,
+      "url": "https://scholar.google.co.kr/citations?user=7NBlQw4AAAAJ&hl=ko"
+    }
+  ],
+  "venue": "BMVC",
+  "venue_full": "British Machine Vision Conference",
+  "year": 2025,
+  "honors": [],
+  "links": {
+    "arxiv": "https://arxiv.org/abs/2501.16724",
+    "pdf": null,
+    "code": "https://github.com/hellog2n/B-RIGHT",
+    "project_page": null,
+    "video": null,
+    "slides": null,
+    "bibtex": null
+  },
+  "assets": {
+    "thumbnail": "/images/papers/bright.png",
+    "hover_video": null
+  },
+  "tags": [
+    "benchmark",
+    "HOI",
+    "evaluation"
+  ],
+  "featured": true,
+  "one_liner": "A rebuilt HOI benchmark — equal instances per class, plus a balanced zero-shot split that re-ranks the field.",
+  "tldr": "HICO-DET mixes severe class imbalance with uneven train/test counts, so HOI scores quietly inflate or deflate. B-RIGHT balances every class through automated generation-and-filtering and adds a zero-shot split — re-evaluation cuts variance and shifts rankings."
+}

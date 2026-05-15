@@ -1,0 +1,152 @@
+---
+/**
+ * Layout.astro — HTML shell.
+ *
+ * Critical responsibilities:
+ *   1. Apply the correct theme class (.dark) on <html> BEFORE first paint
+ *      via an inline boot script. Order:
+ *        a) explicit localStorage.theme → 'dark' or 'light'
+ *        b) otherwise → prefers-color-scheme system pref
+ *      Default if neither: dark (per brief "dark mode first").
+ *   2. Inject head meta (title, description, OG/Twitter, canonical, JSON-LD).
+ *   3. Preconnect to Google Fonts and load Inter + Pretendard.
+ *
+ * The body simply renders the page content via <slot />. The <ThemeToggle>
+ * component is rendered by the page itself, not the layout, so individual
+ * pages may opt out (e.g. print views) if ever needed.
+ */
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import BackgroundBlobs from '../components/BackgroundBlobs.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  personJsonLd?: Record<string, unknown> | null;
+  /**
+   * Whether to render the top <Nav>. Defaults to true. Pages can opt out
+   * by passing `showNav={false}` (e.g. a future print view).
+   */
+  showNav?: boolean;
+  /**
+   * Whether to render the decorative animated <BackgroundBlobs> behind page
+   * content. Defaults to false — only the home page opts in.
+   */
+  showBlobs?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalUrl,
+  ogImage = '/images/yoojin.png',
+  personJsonLd = null,
+  showNav = true,
+  showBlobs = false,
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString() || 'https://hellog2n.github.io/';
+const canonical = canonicalUrl || new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageAbsolute = new URL(ogImage, siteUrl).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+
+    <!-- Theme color meta — track current theme. Updated by boot script. -->
+    <meta name="theme-color" content="#0a0b0f" id="theme-color-meta" />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preconnect"
+      href="https://cdn.jsdelivr.net"
+      crossorigin
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600&display=swap"
+    />
+    <!-- Pretendard via jsdelivr (Korean fallback) -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+
+    <!-- Theme boot script — runs BEFORE body paints to avoid FOUC.
+         Must remain inline; do not move into a module. -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = null;
+          try { stored = localStorage.getItem('theme'); } catch (e) {}
+          var systemDark =
+            window.matchMedia &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches;
+          // Default to dark (project brief: dark-mode first).
+          var isDark =
+            stored === 'dark' ||
+            (stored !== 'light' && (systemDark || stored === null));
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+            var meta = document.getElementById('theme-color-meta');
+            if (meta) meta.setAttribute('content', '#0a0b0f');
+          } else {
+            document.documentElement.classList.remove('dark');
+            var meta2 = document.getElementById('theme-color-meta');
+            if (meta2) meta2.setAttribute('content', '#ffffff');
+          }
+        } catch (e) {
+          /* fall back to light */
+        }
+      })();
+    </script>
+
+    {
+      personJsonLd && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(personJsonLd)}
+        />
+      )
+    }
+  </head>
+  <body class="isolate bg-bg-default text-primary antialiased">
+    {showBlobs && <BackgroundBlobs />}
+    {showNav && <Nav />}
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "id": "dcgan-evaluation-kmms-2021",
+  "title": "Quality and Diversity Evaluation for DCGAN-based Generative Models",
+  "title_ko": "DCGAN 기반 생성 모델에 대한 품질 및 다양성 평가",
+  "venue": "KMMS",
+  "venue_full": "Korean Multimedia Society Spring Conference",
+  "venue_iteration": "Vol. 24, No. 1",
+  "year": 2021,
+  "honors": ["Best Paper Award"],
+  "language": "ko",
+  "links": { "paper": null, "arxiv": null, "slides": null },
+  "tags": ["evaluation", "GAN"],
+  "tagline": "Quality and diversity evaluation for DCGAN-based generators — Best Paper, KMMS Spring 2021.",
+  "featured": false
+}

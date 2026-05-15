@@ -1,0 +1,126 @@
+---
+/**
+ * BackgroundBlobs — decorative animated blue blobs behind the Hero.
+ *
+ * - Three soft circles with the accent gradient palette, large blur, slow drift.
+ * - aria-hidden + pointer-events:none → purely decorative, no a11y impact.
+ * - Stays within the first viewport (height: 100vh) so it doesn't compete with
+ *   the rest of the page; fades out near the bottom edge to dissolve cleanly
+ *   into the page background.
+ * - prefers-reduced-motion: blobs become static, no animation.
+ * - Dark / light modes use different stops so neither overwhelms text contrast.
+ *
+ * Placement: render as the first child inside <main> on the home page. The
+ * main element must establish a stacking context (position: relative + isolation: isolate).
+ */
+---
+
+<div class="bg-blobs" aria-hidden="true">
+  <span class="blob blob-1"></span>
+  <span class="blob blob-2"></span>
+  <span class="blob blob-3"></span>
+</div>
+
+<style>
+  .bg-blobs {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+    /* Soft fade-out near the bottom so the blobs dissolve into page bg */
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 65%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 65%,
+      transparent 100%
+    );
+  }
+
+  .blob {
+    position: absolute;
+    display: block;
+    border-radius: 9999px;
+    filter: blur(60px);
+    will-change: transform;
+    opacity: 0.55;
+  }
+
+  /* Dark mode tints — token palette: accent.gradient.from/via/to */
+  .blob-1 {
+    width: 30rem;
+    height: 30rem;
+    top: -8rem;
+    left: -6rem;
+    background: radial-gradient(circle, #60a5fa 0%, transparent 70%);
+    animation: blob-drift-1 26s ease-in-out infinite;
+  }
+  .blob-2 {
+    width: 24rem;
+    height: 24rem;
+    top: 2rem;
+    right: -6rem;
+    background: radial-gradient(circle, #7dd3fc 0%, transparent 70%);
+    animation: blob-drift-2 32s ease-in-out infinite;
+  }
+  .blob-3 {
+    width: 22rem;
+    height: 22rem;
+    bottom: -2rem;
+    left: 30%;
+    background: radial-gradient(circle, #22d3ee 0%, transparent 70%);
+    animation: blob-drift-3 28s ease-in-out infinite;
+  }
+
+  /* Light mode — deeper tones for contrast on white, lower opacity */
+  :global(html:not(.dark)) .blob {
+    opacity: 0.32;
+  }
+  :global(html:not(.dark)) .blob-1 {
+    background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+  }
+  :global(html:not(.dark)) .blob-2 {
+    background: radial-gradient(circle, #2563eb 0%, transparent 70%);
+  }
+  :global(html:not(.dark)) .blob-3 {
+    background: radial-gradient(circle, #0891b2 0%, transparent 70%);
+  }
+
+  /* Mobile — smaller blur to reduce GPU cost, smaller blobs */
+  @media (max-width: 768px) {
+    .blob {
+      filter: blur(50px);
+    }
+    .blob-1 { width: 22rem; height: 22rem; }
+    .blob-2 { width: 18rem; height: 18rem; }
+    .blob-3 { width: 16rem; height: 16rem; }
+  }
+
+  /* Drift keyframes — gentle, never fast. 26–32s cycles, ease-in-out. */
+  @keyframes blob-drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(60px, 40px) scale(1.08); }
+  }
+  @keyframes blob-drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(-50px, 60px) scale(0.95); }
+  }
+  @keyframes blob-drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%      { transform: translate(30px, -50px) scale(1.06); }
+  }
+
+  /* Respect prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    .blob {
+      animation: none;
+    }
+  }
+</style>

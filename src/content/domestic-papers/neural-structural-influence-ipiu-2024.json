@@ -1,0 +1,15 @@
+{
+  "id": "neural-structural-influence-ipiu-2024",
+  "title": "Analyzing the Structural Influence of Neural Networks via Generative Models",
+  "title_ko": "생성 모델을 통한 신경망의 순수 구조적 영향력 분석 방법",
+  "venue": "IPIU",
+  "venue_full": "Workshop on Image Processing and Image Understanding",
+  "venue_iteration": "36th",
+  "year": 2024,
+  "honors": [],
+  "language": "ko",
+  "links": { "paper": null, "arxiv": null, "slides": null },
+  "tags": ["analysis", "generative-models"],
+  "tagline": "Probing how pure architectural structure shapes generators, beyond trained weights — IPIU 2024.",
+  "featured": false
+}

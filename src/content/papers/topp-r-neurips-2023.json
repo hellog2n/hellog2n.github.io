@@ -1,0 +1,51 @@
+{
+  "id": "topp-r-neurips-2023",
+  "title": "TopP&R: Robust Support Estimation Approach for Evaluating Fidelity and Diversity in Generative Models",
+  "authors": [
+    {
+      "name": "Pum Jun Kim",
+      "is_me": false,
+      "url": null
+    },
+    {
+      "name": "Yoojin Jang",
+      "is_me": true,
+      "url": null
+    },
+    {
+      "name": "Jisu Kim",
+      "is_me": false,
+      "url": "https://jkim82133.github.io/"
+    },
+    {
+      "name": "Jaejun Yoo",
+      "is_me": false,
+      "url": "https://scholar.google.co.kr/citations?hl=en&user=7NBlQw4AAAAJ"
+    }
+  ],
+  "venue": "NeurIPS",
+  "venue_full": "Conference on Neural Information Processing Systems",
+  "year": 2023,
+  "honors": [],
+  "links": {
+    "arxiv": "https://arxiv.org/abs/2306.08013",
+    "pdf": null,
+    "code": "https://github.com/LAIT-CVLab/TopPR",
+    "project_page": "https://lait-cvlab.github.io/TopPR/",
+    "video": null,
+    "slides": null,
+    "bibtex": null
+  },
+  "assets": {
+    "thumbnail": "/images/papers/toppr.png",
+    "hover_video": null
+  },
+  "tags": [
+    "evaluation",
+    "generative-models",
+    "topological data analysis"
+  ],
+  "featured": true,
+  "one_liner": "Topological precision and recall that fix what FID and P&R quietly overlook — the support estimate itself.",
+  "tldr": "FID, IS, and precision-recall all rest on supports estimated from sample features, but nobody checks whether those supports are reliable. TopP&R keeps only topologically and statistically significant features, giving fidelity and diversity scores stable under outliers and non-IID noise."
+}

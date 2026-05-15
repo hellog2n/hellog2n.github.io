@@ -1,0 +1,14 @@
+{
+  "id": "hangul-game-app-2019",
+  "title": "Hangul Structure & Color Perception Game App",
+  "year": 2019,
+  "period": null,
+  "status": "completed",
+  "role": "First author",
+  "links": { "repo": null, "demo": null, "paper": null },
+  "tags": ["app", "game", "award"],
+  "assets": { "thumbnail": null, "video": null },
+  "tagline": "Educational app for Hangul-structure literacy and color perception — also Best Paper + Oral at KIIS Fall 2019.",
+  "description": null,
+  "featured": false
+}

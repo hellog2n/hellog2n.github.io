@@ -1,0 +1,88 @@
+---
+/**
+ * Projects board — /projects/
+ *
+ * Lists every entry from the `projects` content collection, sorted by year desc.
+ * Intentionally NOT linked from the home page (per user request 2026-05-15:
+ * "메인에는 표시하지 않아도 될듯").
+ *
+ * Layout: small page header (h1 + sub-line) → ordered list of ProjectCards → Footer.
+ * Theme toggle and Layout shell are reused from /.
+ */
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import Footer from '../../components/Footer.astro';
+import microcopy from '../../data/microcopy.json';
+
+// ─── Data loading ─────────────────────────────────────────────────────
+const profileEntry = await getEntry('profile', 'profile');
+const profile = profileEntry?.data;
+
+const projects = await getCollection('projects');
+
+// Sort: year desc, then featured first within year, then alpha by title for stability.
+const sortedProjects = [...projects].sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+// ─── Page metadata ────────────────────────────────────────────────────
+const authorName = profile?.name.display ?? 'Yoojin Jang';
+const pageTitle = `Projects — ${authorName}`;
+const pageDescription =
+  "A log of things Yoojin Jang has built, taught, or earned along the way — side projects, awards, internships, and teaching.";
+const subhead =
+  (microcopy as Record<string, string>)['section.projects'] ??
+  "A log of things I've built, taught, or earned along the way.";
+
+const canonicalUrl = 'https://hellog2n.github.io/projects/';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+>
+  <ThemeToggle />
+
+  <main class="min-h-screen">
+    <section
+      class="pt-10 pb-10 md:pt-16 md:pb-12"
+      aria-labelledby="projects-heading"
+    >
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <header class="mb-10 md:mb-12">
+          <h1
+            id="projects-heading"
+            class="text-h1 font-semibold tracking-tight text-primary leading-tight"
+          >
+            Projects
+          </h1>
+          <p class="mt-3 text-small leading-normal text-muted">{subhead}</p>
+        </header>
+
+        {
+          sortedProjects.length > 0 ? (
+            <ol class="flex flex-col gap-3 list-none p-0 m-0">
+              {sortedProjects.map((project) => (
+                <li>
+                  <ProjectCard project={project} />
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p class="text-small text-muted">No projects yet.</p>
+          )
+        }
+      </div>
+    </section>
+  </main>
+
+  <Footer
+    authorName={authorName}
+    tagline={(microcopy as Record<string, string>)['footer.tagline']}
+  />
+</Layout>

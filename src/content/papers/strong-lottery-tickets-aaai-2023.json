@@ -1,0 +1,58 @@
+{
+  "id": "strong-lottery-tickets-aaai-2023",
+  "title": "Can We Find Strong Lottery Tickets in Generative Models?",
+  "authors": [
+    {
+      "name": "Sangyeop Yeo",
+      "is_me": false,
+      "url": "https://scholar.google.com/citations?hl=ko&user=O5wO-uYAAAAJ"
+    },
+    {
+      "name": "Yoojin Jang",
+      "is_me": true,
+      "url": null
+    },
+    {
+      "name": "Jy-yong Sohn",
+      "is_me": false,
+      "url": "https://scholar.google.co.kr/citations?hl=en&user=Cs75s1MAAAAJ"
+    },
+    {
+      "name": "Dongyoon Han",
+      "is_me": false,
+      "url": "https://scholar.google.com/citations?user=jcP7m1QAAAAJ&hl=en"
+    },
+    {
+      "name": "Jaejun Yoo",
+      "is_me": false,
+      "url": "https://scholar.google.co.kr/citations?hl=en&user=7NBlQw4AAAAJ"
+    }
+  ],
+  "venue": "AAAI",
+  "venue_full": "AAAI Conference on Artificial Intelligence",
+  "year": 2023,
+  "honors": [
+    "Oral Presentation"
+  ],
+  "links": {
+    "arxiv": "https://ojs.aaai.org/index.php/AAAI/article/view/25433",
+    "pdf": null,
+    "code": "https://github.com/SangyeopYeo/Edge-popup_with_MMD",
+    "project_page": "https://lait-cvlab.github.io/SLT-in-Generative-Models/",
+    "video": null,
+    "slides": null,
+    "bibtex": null
+  },
+  "assets": {
+    "thumbnail": "/images/papers/canwe.png",
+    "hover_video": null
+  },
+  "tags": [
+    "MMD",
+    "lottery-ticket",
+    "pruning"
+  ],
+  "featured": false,
+  "one_liner": "Inside an untrained generator hides a subnetwork that matches the dense model — found by moment-matching scores.",
+  "tldr": "Strong lottery tickets ask whether a random network already contains a working subnetwork, no weight updates allowed. We bring this to generators: only a binary mask is learned over an untrained model, guided by moment-matching scores (MMD). With 10% of weights left, it matches the dense baseline."
+}

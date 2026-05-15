@@ -1,0 +1,272 @@
+---
+/**
+ * Home page — Hero → About → Publications → Education → Footer.
+ *
+ * All content is loaded from Content Collections (papers, profile) and the
+ * standalone microcopy.json import. Nothing is hardcoded here.
+ */
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import PublicationCard from '../components/PublicationCard.astro';
+import EducationItem from '../components/EducationItem.astro';
+import Footer from '../components/Footer.astro';
+import microcopy from '../data/microcopy.json';
+
+// ─── Data loading ─────────────────────────────────────────────────────
+const profileEntry = await getEntry('profile', 'profile');
+if (!profileEntry) {
+  throw new Error("Missing src/content/profile/profile.json — required.");
+}
+const profile = profileEntry.data;
+
+const papers = await getCollection('papers');
+
+// On-going projects (small inline section above Publications). Optional —
+// if the array is missing or empty the section is not rendered.
+const ongoing = profile.ongoing_projects ?? [];
+
+// Sort: year desc, then venue alpha. Featured come first within each year.
+const sortedPapers = [...papers].sort((a, b) => {
+  if (b.data.year !== a.data.year) return b.data.year - a.data.year;
+  if (a.data.featured !== b.data.featured) return a.data.featured ? -1 : 1;
+  return a.data.venue.localeCompare(b.data.venue);
+});
+
+// ─── Contact links ────────────────────────────────────────────────────
+type ContactLink = {
+  href: string;
+  label: string;
+  icon: 'mail' | 'scholar' | 'github' | 'linkedin';
+};
+const contacts: ContactLink[] = [];
+if (profile.contact.email) {
+  contacts.push({
+    href: `mailto:${profile.contact.email}`,
+    label: microcopy['cta.email'] ?? 'Email',
+    icon: 'mail',
+  });
+}
+if (profile.contact.scholar) {
+  contacts.push({
+    href: profile.contact.scholar,
+    label: microcopy['cta.scholar'] ?? 'Scholar',
+    icon: 'scholar',
+  });
+}
+if (profile.contact.github) {
+  contacts.push({
+    href: profile.contact.github,
+    label: microcopy['cta.github'] ?? 'GitHub',
+    icon: 'github',
+  });
+}
+if (profile.contact.linkedin) {
+  contacts.push({
+    href: profile.contact.linkedin,
+    label: microcopy['cta.linkedin'] ?? 'LinkedIn',
+    icon: 'linkedin',
+  });
+}
+
+// ─── Page metadata ────────────────────────────────────────────────────
+const pageTitle = `${profile.name.display} — ${profile.title}`;
+const pageDescription =
+  profile.bio_short ||
+  `${profile.name.display}, ${profile.title} at ${profile.affiliation.institution}.`;
+
+// JSON-LD Person schema
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name.display,
+  alternateName: profile.name.korean || undefined,
+  jobTitle: profile.title,
+  affiliation: {
+    '@type': 'CollegeOrUniversity',
+    name: profile.affiliation.institution,
+    department: profile.affiliation.department,
+  },
+  url: 'https://hellog2n.github.io/',
+  image:
+    profile.profile_image && profile.profile_image.startsWith('/')
+      ? `https://hellog2n.github.io${profile.profile_image}`
+      : profile.profile_image,
+  email: profile.contact.email
+    ? `mailto:${profile.contact.email}`
+    : undefined,
+  sameAs: [
+    profile.contact.scholar,
+    profile.contact.github,
+    profile.contact.linkedin,
+    profile.contact.twitter,
+  ].filter((u): u is string => typeof u === 'string'),
+  description: profile.bio_long || profile.bio_short || undefined,
+};
+
+const portraitSrc = profile.profile_image || '/images/yoojin.png';
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  personJsonLd={personJsonLd}
+  showBlobs={true}
+  showNav={false}
+>
+  <ThemeToggle />
+
+  <main class="min-h-screen">
+    <Hero
+      name={profile.name.display}
+      bioShort={profile.bio_short}
+      portraitSrc={portraitSrc}
+      portraitAlt={`Portrait of ${profile.name.display}`}
+      contacts={contacts}
+    />
+
+    {/* ─── About ──────────────────────────────────────────────
+         Temporarily hidden per user request (2026-05-15).
+         Data (bio_long, research_vision, research_interests) is
+         preserved in profile.json and can be restored by setting
+         showAbout = true below.
+    */}
+    {false && (profile.bio_long || profile.research_vision) && (
+      <section class="py-16 md:py-24" aria-labelledby="about-heading">
+        <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+          <SectionHeader
+            id="about-heading"
+            title="About"
+            subhead={microcopy['section.about']}
+          />
+          <div class="max-w-prose prose">
+            {profile.bio_long && (
+              <p class="text-body leading-relaxed text-secondary">
+                {profile.bio_long}
+              </p>
+            )}
+            {profile.research_vision && (
+              <p class="mt-5 text-body leading-relaxed text-secondary">
+                {profile.research_vision}
+              </p>
+            )}
+            {profile.research_interests.length > 0 && (
+              <div class="mt-6">
+                <p class="text-micro uppercase tracking-wider text-muted font-medium">
+                  Research interests
+                </p>
+                <ul class="mt-2 flex flex-wrap gap-x-2 gap-y-2 text-small">
+                  {profile.research_interests.map((tag, i) => (
+                    <>
+                      <li class="text-secondary">{tag}</li>
+                      {i < profile.research_interests.length - 1 && (
+                        <li aria-hidden="true" class="text-muted">·</li>
+                      )}
+                    </>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+    {/* ─── On-going (mini, above Publications) ─────────────────
+         A restrained note about active threads. List view (option A):
+         tiny uppercase label, then one item per row prefixed by an
+         accent dot. Renders nothing if `ongoing_projects` is missing.
+    */}
+    {
+      ongoing.length > 0 && (
+        <section
+          class="pt-8 pb-2 md:pt-12 md:pb-4"
+          aria-labelledby="ongoing-heading"
+        >
+          <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+            <div class="flex flex-col gap-3 md:flex-row md:items-start md:gap-8">
+              <h2
+                id="ongoing-heading"
+                class="text-micro uppercase tracking-wider text-muted font-medium leading-normal md:w-32 md:shrink-0 md:pt-0.5"
+              >
+                On-going
+              </h2>
+              <ul class="flex flex-col gap-1.5 list-none p-0 m-0">
+                {ongoing.map((item) => (
+                  <li class="flex items-baseline gap-2 text-small leading-normal text-secondary">
+                    <span
+                      aria-hidden="true"
+                      class="text-accent leading-none"
+                    >
+                      ·
+                    </span>
+                    <span>
+                      {item.title}
+                      {item.note && (
+                        <span class="text-muted"> — {item.note}</span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {/* ─── Publications ────────────────────────────────────── */}
+    <section class="py-16 md:py-24" aria-labelledby="publications-heading">
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <SectionHeader
+          id="publications-heading"
+          title="Publications"
+          subhead={microcopy['section.publications']}
+        />
+        <ol class="flex flex-col gap-6 list-none p-0">
+          {
+            sortedPapers.map((paper) => (
+              <li>
+                <PublicationCard paper={paper} />
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    {/* ─── Education ───────────────────────────────────────── */}
+    {
+      profile.education.length > 0 && (
+        <section class="py-16 md:py-24" aria-labelledby="education-heading">
+          <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+            <SectionHeader
+              id="education-heading"
+              title="Education"
+              subhead={microcopy['section.education']}
+            />
+            <div class="flex flex-col gap-4">
+              {profile.education.map((edu) => (
+                <EducationItem
+                  degree={edu.degree}
+                  program={edu.program}
+                  institution={edu.institution}
+                  location={edu.location}
+                  start={edu.start}
+                  end={edu.end ?? null}
+                  advisors={edu.advisors}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <Footer
+    authorName={profile.name.display}
+    tagline={microcopy['footer.tagline']}
+  />
+</Layout>

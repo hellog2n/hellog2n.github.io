@@ -1,0 +1,200 @@
+---
+/**
+ * PublicationCard — one paper.
+ *
+ * - Layout: thumbnail (16:10) left / meta right on desktop; stacked on mobile.
+ * - Hover: card lifts 1px, border darkens, hover_video fades in if available.
+ * - Self-author byline (`is_me: true`) gets gradient underline via .author-self.
+ * - Honors render as accent-muted pill.
+ *
+ * Asset paths from content collection start with `/images/...` (resolved from /public).
+ */
+import type { CollectionEntry } from 'astro:content';
+import ExternalLink from './icons/ExternalLink.astro';
+
+export interface Props {
+  paper: CollectionEntry<'papers'>;
+}
+
+const { paper } = Astro.props;
+const d = paper.data;
+
+const equalContribCount = d.authors.filter((a) => a.equal_contrib).length;
+const hasEqualContrib = equalContribCount > 0;
+
+type LinkEntry = { label: string; href: string };
+const linkEntries: LinkEntry[] = [];
+if (d.links?.arxiv) linkEntries.push({ label: 'arXiv', href: d.links.arxiv });
+if (d.links?.pdf) linkEntries.push({ label: 'PDF', href: d.links.pdf });
+if (d.links?.code) linkEntries.push({ label: 'Code', href: d.links.code });
+if (d.links?.project_page)
+  linkEntries.push({ label: 'Project page', href: d.links.project_page });
+if (d.links?.video) linkEntries.push({ label: 'Video', href: d.links.video });
+if (d.links?.slides) linkEntries.push({ label: 'Slides', href: d.links.slides });
+
+const venueLine =
+  d.venue_full && d.venue_full !== d.venue
+    ? `${d.venue} · ${d.year}`
+    : `${d.venue} · ${d.year}`;
+
+const thumb = d.assets?.thumbnail || null;
+const hoverVideo = d.assets?.hover_video || null;
+---
+
+<article
+  class="pub-card group flex flex-col gap-4 rounded-lg border border-subtle bg-bg-elevated p-6 md:flex-row md:gap-6 focus-within:shadow-focus"
+  aria-labelledby={`paper-${d.id}-title`}
+>
+  <div class="w-full md:w-60 md:shrink-0">
+    <div class="relative aspect-[16/10] w-full overflow-hidden rounded-md bg-bg-muted">
+      {
+        thumb ? (
+          <img
+            src={thumb}
+            alt={`${d.title} — figure`}
+            loading="lazy"
+            decoding="async"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <div class="absolute inset-0 flex items-center justify-center text-muted text-micro">
+            No figure
+          </div>
+        )
+      }
+      {
+        hoverVideo && (
+          <video
+            class="absolute inset-0 h-full w-full object-cover"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+          >
+            <source src={hoverVideo} type="video/mp4" />
+          </video>
+        )
+      }
+    </div>
+  </div>
+
+  <div class="flex flex-1 flex-col gap-2 min-w-0">
+    <h3
+      id={`paper-${d.id}-title`}
+      class="text-h3 font-semibold tracking-tight leading-snug text-primary"
+    >
+      {d.title}
+    </h3>
+
+    <p class="text-small leading-normal text-secondary">
+      {
+        d.authors.map((author, i) => (
+          <>
+            {author.url ? (
+              <a
+                href={author.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={
+                  author.is_me
+                    ? 'author-self'
+                    : 'underline-offset-2 hover:text-primary hover:underline decoration-1'
+                }
+              >
+                {author.name}
+              </a>
+            ) : author.is_me ? (
+              <span class="author-self">{author.name}</span>
+            ) : (
+              <span>{author.name}</span>
+            )}
+            {author.equal_contrib && <sup aria-label="equal contribution">*</sup>}
+            {i < d.authors.length - 1 && <span>, </span>}
+          </>
+        ))
+      }
+      {
+        hasEqualContrib && (
+          <span class="ml-1 text-muted">
+            {' '}
+            (<sup aria-hidden="true">*</sup> equal contribution)
+          </span>
+        )
+      }
+    </p>
+
+    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-small text-secondary">
+      <span class="tabular">{venueLine}</span>
+      {
+        d.honors && d.honors.length > 0 && (
+          <>
+            {d.honors.map((h) => (
+              <span class="honors-pill">{h}</span>
+            ))}
+          </>
+        )
+      }
+    </p>
+
+    {
+      d.one_liner && (
+        <p class="text-small leading-normal text-secondary">{d.one_liner}</p>
+      )
+    }
+
+    {
+      linkEntries.length > 0 && (
+        <p class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-small font-medium text-accent">
+          {linkEntries.map((entry, i) => (
+            <>
+              {i > 0 && (
+                <span class="text-muted" aria-hidden="true">
+                  ·
+                </span>
+              )}
+              <a
+                href={entry.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 hover:text-accent-hover hover:underline underline-offset-[3px] decoration-1 transition-colors duration-fast ease-standard"
+              >
+                <span>{entry.label}</span>
+                <ExternalLink size={11} class="opacity-60" />
+              </a>
+            </>
+          ))}
+        </p>
+      )
+    }
+
+    {
+      d.tags && d.tags.length > 0 && (
+        <ul class="mt-2 flex flex-wrap gap-1.5 list-none p-0">
+          {d.tags.map((tag) => (
+            <li class="tag-pill">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  /* Tag pill — matches ProjectCard / CareerCard / DomesticPaperCard
+     for a consistent secondary metadata language across the site. */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 9999px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+</style>

@@ -1,0 +1,15 @@
+{
+  "id": "b-right-ipiu-2025",
+  "title": "B-RIGHT: Benchmark Re-evaluation for Long-tail Distribution and Integrity in Human-Object Interaction Datasets",
+  "title_ko": "B-RIGHT: 긴 꼬리 분포 및 무결성을 위한 사람-객체 상호작용 데이터셋 벤치마크 재평가",
+  "venue": "IPIU",
+  "venue_full": "Workshop on Image Processing and Image Understanding",
+  "venue_iteration": "37th",
+  "year": 2025,
+  "honors": [],
+  "language": "ko",
+  "links": { "paper": null, "arxiv": null, "slides": null },
+  "tags": ["benchmark", "HOI"],
+  "tagline": "Domestic workshop version of the B-RIGHT benchmark — IPIU 2025.",
+  "featured": false
+}

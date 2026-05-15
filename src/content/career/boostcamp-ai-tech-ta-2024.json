@@ -1,0 +1,15 @@
+{
+  "id": "boostcamp-ai-tech-ta-2024",
+  "title": "Boostcamp AI Tech — CV Recent Trends TA",
+  "organization": "Naver Connect Foundation",
+  "year": 2024,
+  "period": "2023.12 – 2024.04",
+  "status": "completed",
+  "role": "Teaching assistant",
+  "kind": "teaching",
+  "links": { "site": null, "repo": null },
+  "tags": ["teaching", "computer-vision"],
+  "tagline": "TA for the CV recent-trends track at Naver Boostcamp AI Tech.",
+  "description": null,
+  "featured": false
+}
