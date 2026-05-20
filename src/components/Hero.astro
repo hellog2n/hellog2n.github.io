@@ -42,6 +42,7 @@ const {
             alt={portraitAlt}
             width="128"
             height="128"
+            fetchpriority="high"
             loading="eager"
             decoding="async"
             class="hero-portrait h-28 w-28 rounded-[1.25rem] object-cover shadow-card md:h-32 md:w-32"
@@ -102,7 +103,6 @@ const {
     z-index: 1;
     overflow: hidden;
     border-radius: 1.25rem;
-    backdrop-filter: blur(18px);
     --entry-delay: 40ms;
   }
 

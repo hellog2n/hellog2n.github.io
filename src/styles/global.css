@@ -113,11 +113,11 @@
         rgba(25, 167, 166, 0.14) 48%,
         rgba(216, 240, 236, 0.3) 100%
       );
-    filter: blur(2px);
+    filter: none;
     opacity: 0.72;
     animation:
-      bubble-morph 11s ease-in-out infinite,
-      bubble-drift 28s ease-in-out infinite alternate;
+      bubble-morph 18s ease-in-out infinite,
+      bubble-drift 40s ease-in-out infinite alternate;
   }
 
   .bubble-a {
@@ -148,6 +148,7 @@
     left: -7rem;
     top: 43rem;
     opacity: 0.55;
+    animation: bubble-drift 44s ease-in-out infinite alternate;
     animation-delay: -3s, -16s;
   }
 
@@ -156,6 +157,7 @@
     right: -8rem;
     top: 61rem;
     opacity: 0.5;
+    animation: bubble-drift 48s ease-in-out infinite alternate;
     animation-delay: -8s, -8s;
   }
 
@@ -164,6 +166,7 @@
     left: 32%;
     top: 80rem;
     opacity: 0.46;
+    animation: bubble-drift 46s ease-in-out infinite alternate;
     animation-delay: -5s, -14s;
   }
 
@@ -206,7 +209,7 @@
 
   @media (max-width: 640px) {
     .surface-bubble {
-      filter: blur(1.5px);
+      filter: none;
     }
 
     .bubble-a {
