@@ -78,6 +78,18 @@
     animation-delay: var(--entry-delay, 0ms);
   }
 
+  html.reveal-ready .enter-rise {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: none;
+    will-change: opacity, transform;
+  }
+
+  html.reveal-ready .enter-rise.is-visible {
+    animation: rise-in 520ms cubic-bezier(0.2, 0, 0, 1) both;
+    animation-delay: var(--entry-delay, 0ms);
+  }
+
   .academic-surface {
     position: relative;
     isolation: isolate;
@@ -389,6 +401,7 @@ main {
   }
   .enter-rise {
     animation: none;
+    opacity: 1;
   }
   main {
     animation: none;

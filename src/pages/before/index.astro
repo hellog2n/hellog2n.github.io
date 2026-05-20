@@ -120,8 +120,11 @@ const pageDescription =
             </p>
           ) : (
             <ol class="mt-8 flex flex-col gap-3 list-none p-0">
-              {items.map((item) => (
-                <li>
+              {items.map((item, index) => (
+                <li
+                  class="enter-rise"
+                  style={`--entry-delay: ${100 + index * 45}ms`}
+                >
                   <article
                     class="before-row group flex flex-col gap-2 rounded-lg border border-subtle bg-bg-overlay px-5 py-4 md:flex-row md:items-baseline md:gap-6"
                     aria-labelledby={`item-${item.id}-title`}

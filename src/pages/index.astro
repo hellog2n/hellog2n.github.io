@@ -229,16 +229,21 @@ const portraitSrc = '/images/yoojin-512.jpg';
               subhead={microcopy['section.education']}
             />
             <div class="flex flex-col gap-4">
-              {profile.education.map((edu) => (
-                <EducationItem
-                  degree={edu.degree}
-                  program={edu.program}
-                  institution={edu.institution}
-                  location={edu.location}
-                  start={edu.start}
-                  end={edu.end ?? null}
-                  advisors={edu.advisors}
-                />
+              {profile.education.map((edu, index) => (
+                <div
+                  class="enter-rise"
+                  style={`--entry-delay: ${120 + index * 55}ms`}
+                >
+                  <EducationItem
+                    degree={edu.degree}
+                    program={edu.program}
+                    institution={edu.institution}
+                    location={edu.location}
+                    start={edu.start}
+                    end={edu.end ?? null}
+                    advisors={edu.advisors}
+                  />
+                </div>
               ))}
             </div>
           </div>
