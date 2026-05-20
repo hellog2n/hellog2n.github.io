@@ -6,8 +6,7 @@
  *   1. Apply the correct theme class (.dark) on <html> BEFORE first paint
  *      via an inline boot script. Order:
  *        a) explicit localStorage.theme → 'dark' or 'light'
- *        b) otherwise → prefers-color-scheme system pref
- *      Default if neither: dark (per brief "dark mode first").
+ *        b) otherwise → light
  *   2. Inject head meta (title, description, OG/Twitter, canonical, JSON-LD).
  *   3. Preconnect to Google Fonts and load Inter + Pretendard.
  *
@@ -70,8 +69,8 @@ const ogImageAbsolute = new URL(ogImage, siteUrl).toString();
     <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
 
     <!-- Theme color meta — track current theme. Updated by boot script. -->
-    <meta name="theme-color" content="#0a0b0f" id="theme-color-meta" />
-    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta" />
+    <meta name="color-scheme" content="light dark" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="profile" />
@@ -97,7 +96,7 @@ const ogImageAbsolute = new URL(ogImage, siteUrl).toString();
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&family=Source+Serif+4:wght@400;500;600&display=swap"
     />
     <!-- Pretendard via jsdelivr (Korean fallback) -->
     <link
@@ -112,13 +111,7 @@ const ogImageAbsolute = new URL(ogImage, siteUrl).toString();
         try {
           var stored = null;
           try { stored = localStorage.getItem('theme'); } catch (e) {}
-          var systemDark =
-            window.matchMedia &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches;
-          // Default to dark (project brief: dark-mode first).
-          var isDark =
-            stored === 'dark' ||
-            (stored !== 'light' && (systemDark || stored === null));
+          var isDark = stored === 'dark';
           if (isDark) {
             document.documentElement.classList.add('dark');
             var meta = document.getElementById('theme-color-meta');

@@ -7,7 +7,6 @@
  */
 import { getCollection, getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import PublicationCard from '../components/PublicationCard.astro';
@@ -23,10 +22,6 @@ if (!profileEntry) {
 const profile = profileEntry.data;
 
 const papers = await getCollection('papers');
-
-// On-going projects (small inline section above Publications). Optional —
-// if the array is missing or empty the section is not rendered.
-const ongoing = profile.ongoing_projects ?? [];
 
 // Sort: year desc, then venue alpha. Featured come first within each year.
 const sortedPapers = [...papers].sort((a, b) => {
@@ -113,18 +108,46 @@ const portraitSrc = profile.profile_image || '/images/yoojin.png';
   title={pageTitle}
   description={pageDescription}
   personJsonLd={personJsonLd}
-  showBlobs={true}
 >
-  <ThemeToggle />
+  <main class="academic-surface min-h-screen">
+    <div class="surface-bubbles" aria-hidden="true">
+      <span class="surface-bubble bubble-a"></span>
+      <span class="surface-bubble bubble-b"></span>
+      <span class="surface-bubble bubble-c"></span>
+      <span class="surface-bubble bubble-d"></span>
+      <span class="surface-bubble bubble-e"></span>
+      <span class="surface-bubble bubble-f"></span>
+    </div>
 
-  <main class="min-h-screen">
     <Hero
       name={profile.name.display}
-      bioShort={profile.bio_short}
       portraitSrc={portraitSrc}
       portraitAlt={`Portrait of ${profile.name.display}`}
       contacts={contacts}
     />
+
+    <section class="pb-10 md:pb-14" aria-labelledby="focus-heading">
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <div class="focus-panel enter-rise">
+          <h2
+            id="focus-heading"
+            class="text-micro font-semibold uppercase tracking-wider text-muted"
+          >
+            Current focus
+          </h2>
+          <ul class="mt-3 flex flex-col gap-2 list-none p-0">
+            <li class="focus-item">
+              <span class="focus-dot" aria-hidden="true"></span>
+              <span>Video-to-audio generation</span>
+            </li>
+            <li class="focus-item">
+              <span class="focus-dot" aria-hidden="true"></span>
+              <span>Multimodal benchmarks</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
     {/* ─── About ──────────────────────────────────────────────
          Temporarily hidden per user request (2026-05-15).
@@ -172,51 +195,8 @@ const portraitSrc = profile.profile_image || '/images/yoojin.png';
         </section>
       )}
 
-    {/* ─── On-going (mini, above Publications) ─────────────────
-         A restrained note about active threads. List view (option A):
-         tiny uppercase label, then one item per row prefixed by an
-         accent dot. Renders nothing if `ongoing_projects` is missing.
-    */}
-    {
-      ongoing.length > 0 && (
-        <section
-          class="pt-8 pb-2 md:pt-12 md:pb-4"
-          aria-labelledby="ongoing-heading"
-        >
-          <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
-            <div class="flex flex-col gap-3 md:flex-row md:items-start md:gap-8">
-              <h2
-                id="ongoing-heading"
-                class="text-micro uppercase tracking-wider text-muted font-medium leading-normal md:w-32 md:shrink-0 md:pt-0.5"
-              >
-                On-going
-              </h2>
-              <ul class="flex flex-col gap-1.5 list-none p-0 m-0">
-                {ongoing.map((item) => (
-                  <li class="flex items-baseline gap-2 text-small leading-normal text-secondary">
-                    <span
-                      aria-hidden="true"
-                      class="text-accent leading-none"
-                    >
-                      ·
-                    </span>
-                    <span>
-                      {item.title}
-                      {item.note && (
-                        <span class="text-muted"> — {item.note}</span>
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-      )
-    }
-
     {/* ─── Publications ────────────────────────────────────── */}
-    <section class="py-16 md:py-24" aria-labelledby="publications-heading">
+    <section class="py-12 md:py-18" aria-labelledby="publications-heading">
       <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
         <SectionHeader
           id="publications-heading"
@@ -225,8 +205,11 @@ const portraitSrc = profile.profile_image || '/images/yoojin.png';
         />
         <ol class="flex flex-col gap-6 list-none p-0">
           {
-            sortedPapers.map((paper) => (
-              <li>
+            sortedPapers.map((paper, index) => (
+              <li
+                class="enter-rise"
+                style={`--entry-delay: ${180 + index * 55}ms`}
+              >
                 <PublicationCard paper={paper} />
               </li>
             ))
@@ -286,3 +269,27 @@ const portraitSrc = profile.profile_image || '/images/yoojin.png';
     tagline={microcopy['footer.tagline']}
   />
 </Layout>
+
+<style>
+  .focus-panel {
+    --entry-delay: 110ms;
+  }
+
+  .focus-item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--color-text-secondary);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .focus-dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    flex: 0 0 auto;
+    border-radius: 9999px;
+    background: var(--color-accent);
+  }
+</style>

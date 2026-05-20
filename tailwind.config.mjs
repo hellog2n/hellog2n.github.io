@@ -70,7 +70,7 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Inter',
+          'Nunito Sans',
           'Pretendard',
           'system-ui',
           '-apple-system',

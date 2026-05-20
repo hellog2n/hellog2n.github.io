@@ -12,7 +12,6 @@
  */
 import { getCollection, getEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import ThemeToggle from '../../components/ThemeToggle.astro';
 import Footer from '../../components/Footer.astro';
 
 const CUTOFF_YEAR = 2021;
@@ -92,9 +91,16 @@ const pageDescription =
   description={pageDescription}
   showBlobs={false}
 >
-  <ThemeToggle />
+  <main class="academic-surface min-h-screen">
+    <div class="surface-bubbles" aria-hidden="true">
+      <span class="surface-bubble bubble-a"></span>
+      <span class="surface-bubble bubble-b"></span>
+      <span class="surface-bubble bubble-c"></span>
+      <span class="surface-bubble bubble-d"></span>
+      <span class="surface-bubble bubble-e"></span>
+      <span class="surface-bubble bubble-f"></span>
+    </div>
 
-  <main class="min-h-screen">
     <section class="pt-10 pb-16 md:pt-14 md:pb-24">
       <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
         <header class="mb-8 md:mb-10" id="before-heading">
@@ -117,7 +123,7 @@ const pageDescription =
               {items.map((item) => (
                 <li>
                   <article
-                    class="before-row group flex flex-col gap-2 rounded-lg border border-subtle bg-bg-elevated px-5 py-4 md:flex-row md:items-baseline md:gap-6"
+                    class="before-row group flex flex-col gap-2 rounded-lg border border-subtle bg-bg-overlay px-5 py-4 md:flex-row md:items-baseline md:gap-6"
                     aria-labelledby={`item-${item.id}-title`}
                   >
                     {/* Year / period / venue column */}
@@ -202,11 +208,24 @@ const pageDescription =
 
 <style>
   .before-row {
-    transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      border-color 180ms cubic-bezier(0.2, 0, 0, 1),
+      box-shadow 180ms cubic-bezier(0.2, 0, 0, 1),
+      transform 180ms cubic-bezier(0.2, 0, 0, 1);
   }
   @media (hover: hover) {
     .before-row:hover {
       border-color: var(--color-border-default);
+      box-shadow: var(--shadow-elevated);
+      transform: translateY(-3px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .before-row,
+    .before-row:hover {
+      transform: none;
+      transition-duration: 0.01ms;
     }
   }
 
