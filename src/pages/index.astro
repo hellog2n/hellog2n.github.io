@@ -13,6 +13,7 @@ import PublicationCard from '../components/PublicationCard.astro';
 import EducationItem from '../components/EducationItem.astro';
 import Footer from '../components/Footer.astro';
 import microcopy from '../data/microcopy.json';
+import newsItems from '../data/news.json';
 
 // ─── Data loading ─────────────────────────────────────────────────────
 const profileEntry = await getEntry('profile', 'profile');
@@ -146,6 +147,62 @@ const portraitSrc = '/images/yoojin-512.jpg';
             </li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    {/* ─── News ─────────────────────────────────────────────── */}
+    <section class="py-12 md:py-16" aria-labelledby="news-heading">
+      <div class="mx-auto max-w-content px-5 sm:px-6 lg:px-8">
+        <SectionHeader
+          id="news-heading"
+          title="News"
+          subhead={microcopy['section.news']}
+        />
+        <ol class="news-list list-none p-0">
+          {
+            newsItems.map((item, index) => {
+              const hasEqualContrib = item.authors.some(
+                (author) => author.equal_contrib
+              );
+
+              return (
+                <li
+                  class="news-item enter-rise"
+                  style={`--entry-delay: ${150 + index * 55}ms`}
+                >
+                  <p class="news-date tabular">{item.date}</p>
+                  <div class="min-w-0">
+                    <h3 class="news-title">{item.title}</h3>
+                    <p class="news-authors">
+                      {item.authors.map((author, i) => (
+                        <>
+                          {author.is_me ? (
+                            <span class="author-self">{author.name}</span>
+                          ) : (
+                            <span>{author.name}</span>
+                          )}
+                          {author.equal_contrib && (
+                            <sup aria-label="equal contribution">*</sup>
+                          )}
+                          {i < item.authors.length - 1 && <span>, </span>}
+                        </>
+                      ))}
+                      {hasEqualContrib && (
+                        <span class="ml-1 text-muted">
+                          {' '}
+                          (<sup aria-hidden="true">*</sup> equal contribution)
+                        </span>
+                      )}
+                    </p>
+                    <p class="news-meta">
+                      <span>{item.venue}</span>
+                    </p>
+                  </div>
+                </li>
+              );
+            })
+          }
+        </ol>
       </div>
     </section>
 
@@ -296,5 +353,56 @@ const portraitSrc = '/images/yoojin-512.jpg';
     flex: 0 0 auto;
     border-radius: 9999px;
     background: var(--color-accent);
+  }
+
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .news-item {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--color-border-subtle);
+    padding-top: 1rem;
+  }
+
+  .news-date {
+    color: var(--color-accent);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .news-title {
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+
+  .news-authors,
+  .news-meta {
+    margin-top: 0.25rem;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .news-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .news-item {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
   }
 </style>

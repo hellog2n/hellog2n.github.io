@@ -1,0 +1,24 @@
+[
+  {
+    "date": "2026",
+    "title": "AVENUE: Audio-Video EditiNg Understanding and Evaluation",
+    "venue": "Accepted, Learning to Listen: ICML 2026 Workshop on Machine Learning for Audio",
+    "authors": [
+      { "name": "Hayeon Kim", "equal_contrib": true },
+      { "name": "Yoojin Jang", "is_me": true, "equal_contrib": true },
+      { "name": "Jaejun Yoo" }
+    ]
+  },
+  {
+    "date": "2026",
+    "title": "Rethinking Video-and-Text-to-Audio Generation through Multimodal Coverage",
+    "venue": "Accepted, Sight and Sound 2026, CVPR Workshop",
+    "authors": [
+      { "name": "Sangyeop Yeo" },
+      { "name": "Yoojin Jang", "is_me": true },
+      { "name": "Saad Mourafik" },
+      { "name": "Arda Senocak" },
+      { "name": "Jaejun Yoo" }
+    ]
+  }
+]
