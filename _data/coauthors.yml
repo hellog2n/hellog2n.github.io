@@ -1,0 +1,44 @@
+# Coauthor profile links. Keyed by lowercased last-name.
+# jekyll-scholar / al-folio's bib.liquid layout looks up each author here and
+# wraps their name in an anchor to `url` when firstname matches. The `firstname`
+# list can carry alternate spellings so bib-side variations still resolve.
+
+kim:
+  - firstname: [Hayeon]
+    url: https://scholar.google.com/citations?user=xJqyrt0AAAAJ&hl=ko
+  - firstname: [Junsu]
+    url: https://scholar.google.com/citations?user=SMAhX9sAAAAJ&hl=ko
+  - firstname: [Pum Jun, "Pum J.", "P. J."]
+    url: https://scholar.google.com/citations?user=WGJgXskAAAAJ&hl=ko
+  - firstname: [Jisu]
+    url: https://scholar.google.com/citations?user=acr5oqsAAAAJ&hl=en
+  - firstname: [Eun-sol, Eun-Sol]
+    url: https://scholar.google.com/citations?user=JhZBnfYAAAAJ&hl=en
+
+yeo:
+  - firstname: [Sangyeop, SangYeop]
+    url: https://scholar.google.com/citations?user=O5wO-uYAAAAJ&hl=ko
+
+baek:
+  - firstname: [Seungryul, SeungRyul]
+    url: https://scholar.google.com/citations?user=Mz1fab8AAAAJ&hl=en
+
+sohn:
+  - firstname: [Jy-yong]
+    url: https://scholar.google.co.kr/citations?hl=en&user=Cs75s1MAAAAJ
+
+han:
+  - firstname: [Dongyoon]
+    url: https://scholar.google.com/citations?user=jcP7m1QAAAAJ&hl=en
+
+yoo:
+  - firstname: [Jaejun]
+    url: https://scholar.google.co.kr/citations?hl=en&user=7NBlQw4AAAAJ
+
+senocak:
+  - firstname: [Arda]
+    url: https://scholar.google.com/citations?user=ivZrAU0AAAAJ&hl=en
+
+mourafik:
+  - firstname: [Saad]
+    url: https://scholar.google.com/citations?user=Ecd5eVUAAAAJ&hl=en

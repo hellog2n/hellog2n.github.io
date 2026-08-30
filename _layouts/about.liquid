@@ -109,6 +109,35 @@ layout: default
       .post-title .font-weight-bold {
         color: var(--global-text-color, inherit);
       }
+      /* On mobile, center the page's h1 so the name reads as the top-of-page brand */
+      @media (max-width: 576px) {
+        .post-title {
+          text-align: center;
+        }
+      }
+
+      /* Standalone theme toggle button pinned to the navbar's right edge */
+      .theme-toggle-button {
+        margin-left: auto;
+        border: none;
+        background: transparent;
+        color: var(--global-text-color, inherit);
+        font-size: 1.05rem;
+        line-height: 1;
+        padding: 0.25rem 0.55rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .theme-toggle-button:hover {
+        color: var(--global-theme-color, inherit);
+        background: color-mix(in srgb, var(--global-theme-color) 10%, transparent);
+      }
+      /* Reserve the icon slot so the button width stays stable across states */
+      .theme-toggle-button i {
+        width: 1.15em;
+        text-align: center;
+      }
       /* Keep the underline / hover color for regular text links visible */
       a {
         color: var(--global-theme-color);
