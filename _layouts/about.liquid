@@ -1,0 +1,333 @@
+---
+layout: default
+---
+<div class="post">
+  <header class="post-header">
+    <h1 class="post-title">
+      {% if site.title == 'blank' %}
+        <span class="font-weight-bold">{{ site.first_name }}</span> {{ site.middle_name }}
+        {{ site.last_name }}
+      {% else %}
+        {{ site.title }}
+      {% endif %}
+    </h1>
+    <p class="desc">{{ page.subtitle }}</p>
+  </header>
+
+  <article>
+    {% if page.profile %}
+      <div class="profile float-{% if page.profile.align == 'left' %}left{% else %}right{% endif %}">
+        <div class="hi-greeting" aria-hidden="true">Hi all!</div>
+        {% if page.profile.image %}
+          {% assign profile_image_path = page.profile.image | prepend: 'assets/img/' %}
+          {% if page.profile.image_circular %}
+            {% assign profile_image_class = 'img-fluid z-depth-1 rounded-circle' %}
+          {% else %}
+            {% assign profile_image_class = 'img-fluid z-depth-1
+      rounded' %}
+          {% endif %}
+          {% capture sizes %}(min-width: {{ site.max_width }}) {{ site.max_width | minus: 30 | times: 0.3}}px, (min-width: 576px)
+      30vw, 95vw"{% endcapture %}
+          <div class="profile-portrait">
+            <div class="portrait-stack">
+              <div class="portrait-layer portrait-primary">
+                {%
+                  include figure.liquid loading="eager" path=profile_image_path class=profile_image_class sizes=sizes alt=page.profile.image
+                  cache_bust=true
+                %}
+              </div>
+              <div class="portrait-layer portrait-hover" aria-hidden="true">
+                {%
+                  include figure.liquid loading="lazy" path="assets/img/yoojin_selfie_for_hobby.JPG" class=profile_image_class sizes=sizes alt="Yoojin's hobby portrait"
+                  cache_bust=true
+                %}
+              </div>
+            </div>
+            <div class="profile-bubble" role="tooltip" aria-hidden="true">
+              <span class="profile-bubble-text">🥁 I love playing drums and composing music 🎵</span>
+              <a href="https://soundcloud.com/bread-to/tracks" target="_blank" rel="noopener" class="profile-bubble-link">Listen on SoundCloud →</a>
+            </div>
+          </div>
+        {% endif %}
+        {% if page.profile.more_info %}
+          <div class="more-info">{{ page.profile.more_info }}</div>
+        {% endif %}
+        {% if page.social %}
+          <div class="profile-social">
+            <div class="contact-icons">{% social_links %}</div>
+            {% if site.contact_note %}
+              <div class="contact-note">{{ site.contact_note }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="clearfix">{{ content }}</div>
+
+    <style>
+      /* Blue gradient accent palette (inspired by the Build Lab / Framer look) */
+      :root {
+        --accent-blue-deep: #1e3a8a;
+        --accent-blue: #2563eb;
+        --accent-blue-bright: #3b82f6;
+        --accent-blue-sky: #38bdf8;
+        --accent-gradient: linear-gradient(
+          135deg,
+          var(--accent-blue-deep) 0%,
+          var(--accent-blue-bright) 55%,
+          var(--accent-blue-sky) 100%
+        );
+        --global-theme-color: var(--accent-blue);
+        --global-hover-color: var(--accent-blue-deep);
+      }
+      html[data-theme="dark"] {
+        --global-theme-color: var(--accent-blue-sky);
+        --global-hover-color: var(--accent-blue-bright);
+      }
+
+      /* Gradient text for section headings and the "Hi all!" greeting */
+      .post h2,
+      .hi-greeting {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .hi-greeting {
+        font-weight: 700;
+        font-size: 1.6rem;
+        line-height: 1.15;
+        margin-bottom: 0.55rem;
+        text-align: center;
+        letter-spacing: -0.01em;
+      }
+      /* Site name: solid black (or theme text color), fully bold */
+      .post-title {
+        font-weight: 700;
+      }
+      .post-title .font-weight-bold {
+        color: var(--global-text-color, inherit);
+      }
+      /* Keep the underline / hover color for regular text links visible */
+      a {
+        color: var(--global-theme-color);
+      }
+      a:hover {
+        color: var(--global-hover-color);
+      }
+
+      /* Profile column: keep it narrow so its height stays close to the compact bio */
+      .profile.float-right,
+      .profile.float-left {
+        width: 210px;
+        max-width: 40%;
+        margin-top: 0.35rem;
+      }
+      @media (max-width: 576px) {
+        .profile.float-right,
+        .profile.float-left {
+          width: 60%;
+          max-width: none;
+          margin: 0 auto 1rem;
+          float: none !important;
+        }
+      }
+
+      /* Profile portrait: soft ring + subtle depth (style A) */
+      .profile figure {
+        margin: 0;
+      }
+      .profile-portrait {
+        position: relative;
+      }
+
+      /* Two-image stack for the hover swap. The primary image drives the
+         container's dimensions; the hover image sits on top of it, invisible,
+         and cross-fades in when the user hovers. */
+      .portrait-stack {
+        position: relative;
+      }
+      .portrait-layer {
+        transition: opacity 0.45s ease, transform 0.45s ease;
+        will-change: opacity, transform;
+      }
+      .portrait-hover {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transform: scale(0.985);
+      }
+      .profile-portrait:hover .portrait-hover,
+      .profile-portrait:focus-within .portrait-hover {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .profile-portrait:hover .portrait-primary,
+      .profile-portrait:focus-within .portrait-primary {
+        opacity: 0;
+        transform: scale(1.015);
+      }
+      /* Respect users who prefer reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        .portrait-layer {
+          transition-duration: 0.01ms;
+        }
+        .portrait-hover,
+        .profile-portrait:hover .portrait-primary {
+          transform: none;
+        }
+      }
+
+      /* Hover speech-bubble anchored to the portrait */
+      .profile-bubble {
+        position: absolute;
+        top: 20%;
+        right: calc(100% + 14px);
+        width: 210px;
+        padding: 0.7rem 0.9rem;
+        background: var(--global-card-bg-color, #fff);
+        color: var(--global-text-color, #333);
+        border: 1px solid var(--global-divider-color, rgba(0, 0, 0, 0.08));
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+        font-size: 0.82rem;
+        line-height: 1.45;
+        text-align: left;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(6px);
+        transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+        pointer-events: none;
+        z-index: 20;
+      }
+      .profile-bubble::after {
+        content: "";
+        position: absolute;
+        top: 22%;
+        left: 100%;
+        border: 7px solid transparent;
+        border-left-color: var(--global-card-bg-color, #fff);
+        filter: drop-shadow(1px 0 0 var(--global-divider-color, rgba(0, 0, 0, 0.08)));
+      }
+      .profile-portrait:hover .profile-bubble,
+      .profile-portrait:focus-within .profile-bubble {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+      .profile-bubble-text {
+        display: block;
+      }
+      .profile-bubble-link {
+        display: inline-block;
+        margin-top: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--global-theme-color, #ff6f61);
+        text-decoration: none;
+      }
+      .profile-bubble-link:hover {
+        text-decoration: underline;
+      }
+      /* On narrow viewports, drop the bubble above the portrait so it fits */
+      @media (max-width: 768px) {
+        .profile-bubble {
+          top: auto;
+          bottom: calc(100% + 14px);
+          right: 50%;
+          transform: translate(50%, 6px);
+          width: 220px;
+        }
+        .profile-bubble::after {
+          top: 100%;
+          left: 50%;
+          border: 7px solid transparent;
+          border-top-color: var(--global-card-bg-color, #fff);
+          border-left-color: transparent;
+          filter: drop-shadow(0 1px 0 var(--global-divider-color, rgba(0, 0, 0, 0.08)));
+        }
+        .profile-portrait:hover .profile-bubble,
+        .profile-portrait:focus-within .profile-bubble {
+          transform: translate(50%, 0);
+        }
+      }
+      .profile img.rounded-circle {
+        border: 4px solid var(--global-bg-color, #fff);
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.08),
+          0 12px 28px -8px rgba(0, 0, 0, 0.18),
+          0 4px 10px -4px rgba(0, 0, 0, 0.10);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .profile img.rounded-circle:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 0 0 1px rgba(0, 0, 0, 0.10),
+          0 16px 36px -8px rgba(0, 0, 0, 0.22),
+          0 6px 12px -4px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Compact social icons under the profile image */
+      .profile .profile-social {
+        margin-top: 0.75rem;
+        text-align: center;
+      }
+      .profile .profile-social .contact-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+        font-size: 1rem;
+      }
+      .profile .profile-social .contact-icons a {
+        color: var(--global-text-color, inherit);
+        opacity: 0.75;
+        transition: opacity 0.15s ease;
+      }
+      .profile .profile-social .contact-icons a:hover {
+        opacity: 1;
+      }
+      .profile .profile-social .contact-icons i {
+        font-size: 1rem;
+        line-height: 1;
+      }
+      .profile .profile-social .contact-note {
+        margin-top: 0.35rem;
+        font-size: 0.75rem;
+        color: var(--global-text-color-light, #888);
+        text-align: center;
+      }
+    </style>
+
+    <!-- News (no standalone /news/ page — heading is not a link) -->
+    {% if page.announcements and page.announcements.enabled %}
+      <h2>News</h2>
+      {% include news.liquid limit=true %}
+    {% endif %}
+
+    <!-- Latest posts -->
+    {% if page.latest_posts and page.latest_posts.enabled %}
+      <h2>
+        <a href="{{ '/blog/' | relative_url }}" style="color: inherit">latest posts</a>
+      </h2>
+      {% include latest_posts.liquid %}
+    {% endif %}
+
+    <!-- Selected papers (no standalone /publications/ page — heading is not a link) -->
+    {% if page.selected_papers %}
+      <h2>International conference</h2>
+      {% include selected_papers.liquid %}
+    {% endif %}
+
+    {% if site.newsletter and site.newsletter.enabled and site.footer_fixed %}
+      {% if site.plugins contains 'al_newsletter' %}
+        {% include plugins/al_newsletter_form_center_margin.liquid %}
+      {% else %}
+        {% include newsletter.liquid center=true %}
+      {% endif %}
+    {% endif %}
+  </article>
+</div>

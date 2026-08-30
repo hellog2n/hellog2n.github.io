@@ -1,0 +1,148 @@
+---
+---
+
+@string{icmlw = {Learning to Listen: ICML 2026 Workshop on Machine Learning for Audio}}
+@string{cvprw = {Sight and Sound Workshop, CVPR}}
+@string{bmvc  = {British Machine Vision Conference (BMVC)}}
+@string{eccv  = {European Conference on Computer Vision (ECCV)}}
+@string{aaai  = {Proceedings of the AAAI Conference on Artificial Intelligence}}
+@string{neurips = {Advances in Neural Information Processing Systems (NeurIPS)}}
+@string{ipiu  = {Workshop on Image Processing and Image Understanding (IPIU)}}
+@string{kmms  = {Korean Multimedia Society Spring Conference}}
+@string{kcgs  = {Journal of the Korea Computer Graphics Society}}
+
+% -----------------------------------------------------------------------------
+% International peer-reviewed papers (shown on the About page and Publications)
+% -----------------------------------------------------------------------------
+
+@inproceedings{kim2026avenue,
+  abbr        = {ICMLW},
+  selected    = {true},
+  title       = {🚀 AVENUE: Audio-Video EditiNg Understanding and Evaluation},
+  author      = {Kim*, Hayeon and Jang*, Yoojin and Yoo, Jaejun},
+  booktitle   = icmlw,
+  year        = {2026},
+  pdf         = {https://mlforaudioworkshop.github.io/accepted_submissions_2026/CameraReadys%204-83/49/CameraReady/AVENUE__Audio_Video_EdittiNg_Understanding_and_Evaluation_compressed.pdf},
+  dataset     = {https://huggingface.co/datasets/AVENUE-dataset/AVENUE},
+  coming_soon = {arXiv (coming soon)},
+  preview     = {avenue.png},
+  annotation  = {* Equal contribution.}
+}
+
+@inproceedings{yeo2026rethinking,
+  abbr        = {CVPRW},
+  selected    = {true},
+  title       = {Rethinking Video-and-Text-to-Audio Generation through Multimodal Coverage},
+  author      = {Yeo, Sangyeop and Jang, Yoojin and Mourafik, Saad and Senocak, Arda and Yoo, Jaejun},
+  booktitle   = cvprw,
+  year        = {2026},
+  preview     = {rethinking.PNG}
+}
+
+@inproceedings{jang2025bright,
+  abbr        = {BMVC},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {B-RIGHT: Benchmark Re-evaluation for Integrity in Generalized Human-Object Interaction Testing},
+  author      = {Jang*, Yoojin and Kim*, Junsu and Kim, Hayeon and Lee, Eun-ki and Kim, Eun-sol and Baek, Seungryul and Yoo, Jaejun},
+  booktitle   = bmvc,
+  year        = {2025},
+  html        = {https://bmvc2025.bmva.org/proceedings/272/},
+  code        = {https://github.com/hellog2n/B-RIGHT},
+  preview     = {bright.png},
+  abstract    = {HICO-DET mixes severe class imbalance with uneven train/test counts, so HOI scores quietly inflate or deflate. B-RIGHT balances every class through automated generation-and-filtering and adds a zero-shot split — re-evaluation cuts variance and shifts rankings.},
+  annotation  = {* Equal contribution.}
+}
+
+@inproceedings{yeo2024nickel,
+  abbr        = {ECCV},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {Nickel and Diming Your GAN: A Dual-Method Approach to Enhancing GAN Efficiency via Knowledge Distillation},
+  author      = {Yeo, Sangyeop and Jang, Yoojin and Yoo, Jaejun},
+  booktitle   = eccv,
+  year        = {2024},
+  arxiv       = {2405.11614},
+  code        = {https://github.com/SangyeopYeo/NICKEL_AND_DIME},
+  html        = {https://sangyeopyeo.github.io/Nickel_and_Diming_Your_GAN/},
+  preview     = {nickel_dime.png},
+  abstract    = {DiME distills GANs by matching distributions in foundation-model embeddings via MMD; NICKEL keeps the student generator and discriminator talking through interactive compression. Together they reach FID 10.45 at 95.73% compression on FFHQ and still hold up at 99.69%.}
+}
+
+@article{kim2023toppr,
+  abbr        = {NeurIPS},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {TopP\&R: Robust Support Estimation Approach for Evaluating Fidelity and Diversity in Generative Models},
+  author      = {Kim, Pum Jun and Jang, Yoojin and Kim, Jisu and Yoo, Jaejun},
+  journal     = neurips,
+  year        = {2023},
+  arxiv       = {2306.08013},
+  code        = {https://github.com/LAIT-CVLab/TopPR},
+  html        = {https://lait-cvlab.github.io/TopPR/},
+  preview     = {toppr.png},
+  abstract    = {FID, IS, and precision-recall all rest on supports estimated from sample features, but nobody checks whether those supports are reliable. TopP\&R keeps only topologically and statistically significant features, giving fidelity and diversity scores stable under outliers and non-IID noise.}
+}
+
+@inproceedings{yeo2023slt,
+  abbr        = {AAAI},
+  bibtex_show = {true},
+  selected    = {true},
+  title       = {Can We Find Strong Lottery Tickets in Generative Models?},
+  author      = {Yeo, Sangyeop and Jang, Yoojin and Sohn, Jy-yong and Han, Dongyoon and Yoo, Jaejun},
+  booktitle   = aaai,
+  year        = {2023},
+  html        = {https://ojs.aaai.org/index.php/AAAI/article/view/25433},
+  code        = {https://github.com/SangyeopYeo/Edge-popup_with_MMD},
+  preview     = {canwe.png},
+  award       = {Oral Presentation},
+  award_name  = {Oral},
+  abstract    = {Strong lottery tickets ask whether a random network already contains a working subnetwork, no weight updates allowed. We bring this to generators: only a binary mask is learned over an untrained model, guided by moment-matching scores (MMD). With 10% of weights left, it matches the dense baseline.}
+}
+
+% -----------------------------------------------------------------------------
+% Domestic conference / workshop papers (KR) — listed on the Publications page
+% but not featured on the About page (selected omitted).
+% -----------------------------------------------------------------------------
+
+@inproceedings{jang2025bright_ipiu,
+  abbr        = {IPIU},
+  bibtex_show = {true},
+  title       = {B-RIGHT: Benchmark Re-evaluation for Long-tail Distribution and Integrity in Human-Object Interaction Datasets},
+  author      = {Jang, Yoojin and Kim, Junsu and Kim, Hayeon and Lee, Eun-ki and Kim, Eun-sol and Baek, Seungryul and Yoo, Jaejun},
+  booktitle   = ipiu,
+  year        = {2025},
+  note        = {37th IPIU Workshop. Korean-language version of the BMVC 2025 paper.}
+}
+
+@inproceedings{jang2024structural,
+  abbr        = {IPIU},
+  bibtex_show = {true},
+  title       = {Analyzing the Structural Influence of Neural Networks via Generative Models},
+  author      = {Jang, Yoojin and Yoo, Jaejun},
+  booktitle   = ipiu,
+  year        = {2024},
+  note        = {36th IPIU Workshop. Probing how pure architectural structure shapes generators, beyond trained weights.}
+}
+
+@article{jang2022medical,
+  abbr        = {KCGS},
+  bibtex_show = {true},
+  title       = {Assessment and Analysis of Fidelity and Diversity for GAN-based Medical Image Generative Model},
+  author      = {Jang, Yoojin and Yoo, Jaejun},
+  journal     = kcgs,
+  year        = {2022}
+}
+
+@inproceedings{jang2021dcgan,
+  abbr        = {KMMS},
+  bibtex_show = {true},
+  title       = {Quality and Diversity Evaluation for DCGAN-based Generative Models},
+  author      = {Jang, Yoojin and collaborators},
+  booktitle   = kmms,
+  volume      = {24},
+  number      = {1},
+  year        = {2021},
+  award       = {Best Paper Award, KMMS Spring 2021},
+  award_name  = {Best Paper}
+}

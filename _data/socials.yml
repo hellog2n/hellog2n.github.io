@@ -1,0 +1,8 @@
+# Social media links and usernames — order here is the display order.
+# See jekyll-socials for supported networks: https://github.com/george-gca/jekyll-socials
+cv_pdf: /assets/pdf/Yoojin_Jang_CV.pdf # renders as a small CV icon in the profile row
+email: cv.softjin@gmail.com
+scholar_userid: -_a_pDYAAAAJ # Google Scholar user ID (from `user=…` query param)
+github_username: hellog2n
+linkedin_username: yoojin-jang-40929b325
+# rss_icon disabled — no blog, so the feed icon has nothing meaningful to point at
