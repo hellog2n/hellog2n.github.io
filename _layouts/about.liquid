@@ -94,6 +94,38 @@ layout: default
         background-clip: text;
         color: transparent;
       }
+      /* Research interests: a plain one-line-per-area list, given the full
+         column width. `clear` drops it below the floated profile portrait so
+         the lines are never squeezed into the narrow strip beside the image. */
+      .research-interests-heading {
+        clear: both;
+        margin-top: 2.25rem;
+      }
+      .research-interests {
+        clear: both;
+        margin: 0 0 2rem;
+        padding-left: 0;
+        list-style: none;
+      }
+      .research-interests li {
+        position: relative;
+        padding-left: 1.1rem; /* hanging indent: wrapped lines clear the bullet */
+        margin-bottom: 0.7rem;
+        font-size: 0.88rem;
+        line-height: 1.65;
+      }
+      /* Accent bullet as the separator between areas */
+      .research-interests li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--global-theme-color);
+        font-weight: 700;
+      }
+      .research-interests li strong {
+        font-weight: 600;
+      }
       .hi-greeting {
         font-weight: 700;
         font-size: 1.6rem;

@@ -25,3 +25,11 @@ latest_posts:
 ---
 
 I'm **Yoojin Jang (장유진)**, an Integrated M.S./Ph.D. student at [UNIST AIGS](https://www.unist.ac.kr/), advised by [Prof. Jaejun Yoo](https://scholar.google.co.kr/citations?user=7NBlQw4AAAAJ&hl=ko) at [LAIT](https://lait-unist.ai/). My research focuses on **multimodal generation and evaluation**, particularly for audio and video. I am interested in developing multimodal generation and editing models, as well as benchmarks for evaluating their quality and cross-modal consistency.
+
+<h2 class="research-interests-heading">Research Interests</h2>
+
+<ul class="research-interests">
+  <li><strong>Multimodal Generation &amp; Editing</strong>: Audio–video–text consistent, modality-aware generation and editing</li>
+  <li><strong>Data-Centric Learning &amp; Robustness</strong>: Benchmark redesign, data imbalance, synthetic-based data, and robust model evaluation</li>
+  <li><strong>Multimodal LLMs</strong>: Multi-event semantic understanding, temporal reasoning, and real-world multimodal comprehension</li>
+</ul>
